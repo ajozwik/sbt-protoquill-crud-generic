@@ -1,0 +1,1 @@
+# sbt-protoquill-crud-generic
