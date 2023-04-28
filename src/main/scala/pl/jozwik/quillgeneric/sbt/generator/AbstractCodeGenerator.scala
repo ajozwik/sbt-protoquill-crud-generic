@@ -2,7 +2,7 @@ package pl.jozwik.quillgeneric.sbt.generator
 
 import java.io.File
 import java.nio.file.Paths
-import pl.jozwik.quillgeneric.sbt.{ KeyType, RepositoryDescription }
+import pl.jozwik.quillgeneric.sbt.RepositoryDescription
 import sbt.*
 
 import scala.io.{ Codec, Source }
@@ -20,23 +20,6 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
 
   private val header: String = readTemplate(headerFile)
 
-  private def repositoryWithGeneric(key: KeyType.Value) = {
-    val repo = key match {
-      case KeyType.Composite =>
-        repositoryCompositeKey
-      case _ =>
-        domainRepository
-    }
-    (s"$repo[$BeanIdTemplate, $BeanTemplate,  $genericDeclaration]", s"import $genericPackage.$repo")
-  }
-
-  private def chooseTemplate(generateId: Boolean): String =
-    if (generateId) {
-      templateWithGeneratedId
-    } else {
-      template
-    }
-
   def generate(rootPath: File)(description: RepositoryDescription): (File, String) = {
     import description._
     val templateFile = chooseTemplate(generateId)
@@ -47,8 +30,9 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
     val pName = toPackageName(packageName)
     val file  = dir / s"$repositorySimpleClassName.scala"
     val (repositoryTraitSimpleClassName, repositoryImport, defaultRepositoryImport) =
-      toRepositoryTraitImport(repositoryTrait, packageName, repositoryPackageName, repositoryTraitSimpleClassNameOpt, generateId, beanIdClass.keyType)
+      toRepositoryTraitImport(repositoryTrait, packageName, repositoryPackageName, repositoryTraitSimpleClassNameOpt, generateId, beanIdClass.keyLength)
     val genericContent = toGenericContent(content)
+    val findByKey      = toFindByKey(description.beanIdClass.keyLength)
     val result = genericContent
       .replace(RepositoryTraitSimpleClassName, repositoryTraitSimpleClassName)
       .replace(RepositoryTraitImport, repositoryImport)
@@ -64,6 +48,7 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
       .replace(ContextAlias, aliasName)
       .replace(SqlIdiomImport, sqlIdiomImport)
       .replace(CustomImports, customImports)
+      .replace(FindByKey, findByKey)
     (file, s"$header\n$result")
   }
 
@@ -86,13 +71,13 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
       repositoryPackageName: Seq[String],
       repositoryTraitSimpleClassNameOpt: String,
       generateId: Boolean,
-      keyType: KeyType.Value
+      keyLength: Option[Byte]
   ) =
     if (repositoryTraitSimpleClassNameOpt.isEmpty) {
       val (repository, repositoryImport) = if (generateId) {
         (repositoryWithGeneratedWithGeneric, repositoryWithGeneratedImport)
       } else {
-        repositoryWithGeneric(keyType)
+        repositoryWithGeneric
       }
       (s"$repository", "", repositoryImport)
 
@@ -128,6 +113,39 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
     }
   }
 
-  private def mkdirs(dir: File): Unit = if (dir.isDirectory) { () }
-  else { if (!dir.mkdirs()) { sys.error(s"${dir.getAbsolutePath} can not be created") } }
+  private def mkdirs(dir: File): Unit = if (dir.isDirectory) {
+    ()
+  } else {
+    if (!dir.mkdirs()) {
+      sys.error(s"${dir.getAbsolutePath} can not be created")
+    }
+  }
+
+  private def toFindByKey(keyLength: Option[Byte]) = {
+    keyLength match {
+      case Some(l) if l > 1 =>
+        createFindByKey(l)
+      case _ =>
+        "filter(_.id == lift(id))"
+    }
+  }
+
+  private def createFindByKey(l: Byte) =
+    (1 to l)
+      .map { i =>
+        findBy(i)
+      }
+      .mkString(".")
+
+  private def findBy(key: Int) = s"filter(_.id.fk$key == lift(id.fk$key))"
+
+  private def repositoryWithGeneric =
+    (s"$domainRepository[$BeanIdTemplate, $BeanTemplate,  $genericDeclaration]", s"import $genericPackage.$domainRepository")
+
+  private def chooseTemplate(generateId: Boolean): String =
+    if (generateId) {
+      templateWithGeneratedId
+    } else {
+      template
+    }
 }

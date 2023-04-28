@@ -63,7 +63,7 @@ lazy val zio = projectWithSbtPlugin("zio", file("zio"))
       ),
       RepositoryDescription(
         s"$domainModelPackage.Cell4d",
-        BeanIdClass(s"$domainModelPackage.Cell4dId"),
+        BeanIdClass(s"$domainModelPackage.Cell4dId", Option(4)),
         s"$generateZioRepositoryPackage.Cell4dRepositoryGen",
         false,
         None,
@@ -93,7 +93,7 @@ lazy val zio = projectWithSbtPlugin("zio", file("zio"))
       ),
       RepositoryDescription(
         s"$domainModelPackage.Sale",
-        BeanIdClass(s"$domainModelPackage.SaleId"),
+        BeanIdClass(s"$domainModelPackage.SaleId", Option(2)),
         s"$generateZioRepositoryPackage.SaleRepositoryGen",
         false,
         None,

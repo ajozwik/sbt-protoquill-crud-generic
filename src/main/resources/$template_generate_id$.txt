@@ -19,7 +19,7 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
   }
 
   protected inline def find(id: __ID__): Quoted[EntityQuery[__BEAN__]] = quote {
-    quoteQuery.filter(_.id == lift(id))
+    quoteQuery.__FIND_BY_KEY__
   }
 
   override def all: QIO[Seq[__BEAN__]] = {

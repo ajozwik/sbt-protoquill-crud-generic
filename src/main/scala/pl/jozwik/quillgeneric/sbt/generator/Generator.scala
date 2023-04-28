@@ -7,7 +7,6 @@ import pl.jozwik.quillgeneric.sbt.RepositoryDescription
 trait Generator {
   protected def aliasName: String
   protected def domainRepository: String
-  protected def repositoryCompositeKey: String
   protected def domainRepositoryWithGenerated: String
   protected def genericPackage: String
 

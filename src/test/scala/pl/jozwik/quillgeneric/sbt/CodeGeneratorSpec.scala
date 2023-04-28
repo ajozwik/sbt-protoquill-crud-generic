@@ -59,7 +59,7 @@ abstract class AbstractCodeGeneratorSpec(generator: Generator) extends AbstractS
 
     "Generate code for Sale" in {
       val description =
-        RepositoryDescription(s"${modelPackage}.Sale", BeanIdClass(s"${modelPackage}.SaleId", KeyType.Composite), s"${implPackage}.SaleRepository")
+        RepositoryDescription(s"${modelPackage}.Sale", BeanIdClass(s"${modelPackage}.SaleId", Option(2)), s"${implPackage}.SaleRepository")
       val (file: File, content: String) = generateAndLog(description)
       file.exists() shouldBe false
       content should include(description.beanSimpleClassName)

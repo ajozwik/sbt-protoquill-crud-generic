@@ -6,7 +6,6 @@ object ZioJdbcCodeGenerator extends AbstractCodeGenerator with WithJdbc with Wit
   protected def genericPackage                = "pl.jozwik.quillgeneric.zio"
   protected def aliasName                     = "ZioJdbcContextWithDateQuotes"
   protected def domainRepository: String      = "ZioJdbcRepository"
-  protected def repositoryCompositeKey        = "ZioJdbcRepositoryCompositeKey"
   protected def domainRepositoryWithGenerated = "ZioJdbcRepositoryWithTransactionWithGeneratedId"
 
   protected def customImports: String = """import io.getquill.context.qzio.ZioJdbcContext

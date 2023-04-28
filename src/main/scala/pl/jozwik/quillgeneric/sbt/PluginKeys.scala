@@ -9,6 +9,6 @@ trait PluginKeys {
   val defaultSettings: Seq[Def.Setting[_]] =
     Seq(
       generateZioRepositories  := Seq.empty[RepositoryDescription],
-      protoQuillGenericVersion := "0.3"
+      protoQuillGenericVersion := "0.3.1"
     )
 }

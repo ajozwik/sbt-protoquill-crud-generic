@@ -6,7 +6,7 @@ import pl.jozwik.quillgeneric.repository.Repository
 import pl.jozwik.quillgeneric.zio.QIO
 import io.getquill.*
 trait Cell4dSuite extends AbstractZioJdbcSpec {
-  private implicit def schema: SchemaMeta[Cell4d]                      = schemaMeta("Cell4d")
+  private implicit def schema: SchemaMeta[Cell4d] = schemaMeta("Cell4d", _.id.fk1 -> "X", _.id.fk2 -> "Y", _.id.fk3 -> "Z", _.id.fk4 -> "T")
 
   private lazy val repository: Repository[QIO, Cell4dId, Cell4d, Long] = new Cell4dRepositoryGen(ctx)
 
