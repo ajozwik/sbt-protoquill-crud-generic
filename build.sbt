@@ -33,7 +33,7 @@ val protoQuillVersion = "0.3.1"
 
 val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5"
 
-val `ch.qos.logback_logback-classic` = "ch.qos.logback" % "logback-classic" % "1.4.4"
+val `ch.qos.logback_logback-classic` = "ch.qos.logback" % "logback-classic" % "1.3.6"
 
 val `org.scalatest_scalatest` = "org.scalatest" %% "scalatest" % "3.2.15" % Test
 

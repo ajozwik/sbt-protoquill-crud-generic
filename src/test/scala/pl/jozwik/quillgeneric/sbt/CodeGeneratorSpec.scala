@@ -1,8 +1,9 @@
 package pl.jozwik.quillgeneric.sbt
 
-import java.io.File
 import pl.jozwik.quillgeneric.sbt.generator.Generator
 import pl.jozwik.quillgeneric.sbt.generator.jdbc.ZioJdbcCodeGenerator
+
+import java.io.File
 
 class ZioGeneratorCodeSpec extends AbstractCodeGeneratorSpec(ZioJdbcCodeGenerator)
 
@@ -13,7 +14,7 @@ abstract class AbstractCodeGeneratorSpec(generator: Generator) extends AbstractS
   private val baseTempPath         = System.getProperty("java.io.tmpdir")
   private val modelPackage         = "pl.jozwik.quillgeneric.model"
   private val implPackage          = "pl.jozwik.quillgeneric.zio.repository"
-  private val genPackage          = s"$implPackage.gen"
+  private val genPackage           = s"$implPackage.gen"
   "Generator " should {
     "Generate code for Person" in {
       val description =
@@ -24,23 +25,23 @@ abstract class AbstractCodeGeneratorSpec(generator: Generator) extends AbstractS
       content should include(description.beanIdSimpleClassName)
       content should include(description.repositorySimpleClassName)
     }
-      "Custom mapping " in {
-        val dob = "dob"
-        val description = RepositoryDescription(
-          "pl.jozwik.model.Person",
-          BeanIdClass("pl.jozwik.model.PersonId"),
-          "pl.jozwik.repository.PersonRepository",
-          generatedId,
-          Option(s"pl.jozwik.quillgeneric.sbt.MyPersonRepository$generic"),
-          None
-        )
-        val (file: File, content: String) = generateAndLog(description)
-        file.exists() shouldBe false
-        content should include(description.beanSimpleClassName)
-        content should include(description.beanIdSimpleClassName)
-        content should include(description.repositorySimpleClassName)
-//        content should include(dob)
-      }
+    "Custom mapping " in {
+
+      val description = RepositoryDescription(
+        "pl.jozwik.model.Person",
+        BeanIdClass("pl.jozwik.model.PersonId"),
+        "pl.jozwik.repository.PersonRepository",
+        generatedId,
+        Option(s"pl.jozwik.quillgeneric.sbt.MyPersonRepository$generic"),
+        None
+      )
+      val (file: File, content: String) = generateAndLog(description)
+      file.exists() shouldBe false
+      content should include(description.beanSimpleClassName)
+      content should include(description.beanIdSimpleClassName)
+      content should include(description.repositorySimpleClassName)
+
+    }
 
     "Generate code for Configuration" in {
       val description = RepositoryDescription(

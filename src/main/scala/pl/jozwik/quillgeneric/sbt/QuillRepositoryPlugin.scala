@@ -31,9 +31,10 @@ object QuillRepositoryPlugin extends AutoPlugin {
         val rootPath = (Compile / sourceManaged).value
         generate(generateZioRepositories.value, rootPath, ZioJdbcCodeGenerator)
       }.taskValue,
-      libraryDependencies ++= Seq.empty ++
-        addImport(true, "repository", protoQuillGenericVersion.value) ++
+      libraryDependencies ++= Seq(
+        addImport(true, "repository", protoQuillGenericVersion.value),
         addImport(generateZioRepositories.value.nonEmpty, "quill-jdbc-zio", protoQuillGenericVersion.value)
+      ).flatten
     )
   }
 
