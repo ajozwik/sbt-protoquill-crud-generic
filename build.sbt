@@ -21,14 +21,15 @@ ThisBuild / scalacOptions ++= Seq(
   "-Ywarn-dead-code",
   "-language:reflectiveCalls",
   "-Ydelambdafy:method",
-  s"-target:jvm-$targetJdk"
+  s"-target:jvm-$targetJdk",
+  "-Xsource:3"
 )
 
 ThisBuild / javacOptions ++= Seq("-Xlint:deprecation", "-Xdiags:verbose", "-source", targetJdk, "-target", targetJdk)
 
 ThisBuild / scalaVersion := "2.12.17"
 
-val protoQuillVersion = "0.1"
+val protoQuillVersion = "0.3"
 
 val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5"
 

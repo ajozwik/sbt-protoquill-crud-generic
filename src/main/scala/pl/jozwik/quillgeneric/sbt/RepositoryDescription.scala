@@ -13,8 +13,7 @@ final case class RepositoryDescription(
     repositoryClassName: String,
     generateId: Boolean = false,
     repositoryTrait: Option[String] = None,
-    tableName: Option[String] = None,
-    mapping: Map[String, String] = Map.empty[String, String]
+    tableName: Option[String] = None
 ) {
 
   val (packageName: Seq[String], repositorySimpleClassName: String)   = toPackageNameSimpleClass(repositoryClassName)
@@ -23,13 +22,6 @@ final case class RepositoryDescription(
 
   val (repositoryPackageName: Seq[String], repositoryTraitSimpleClassNameOpt: String) =
     toPackageNameSimpleClass(repositoryTrait.getOrElse(""))
-
-  lazy val toTableName: String = tableName
-    .filter(_.trim.nonEmpty)
-    .getOrElse {
-      val (_, simpleClassName) = toPackageNameSimpleClass(beanClass)
-      simpleClassName
-    }
 
   private[sbt] def toPackageNameSimpleClass(className: String): (Seq[String], String) = {
     val array                     = className.split("\\.")

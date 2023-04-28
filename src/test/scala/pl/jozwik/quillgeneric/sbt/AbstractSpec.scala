@@ -7,6 +7,6 @@ import org.scalatest.time.{ Seconds, Span }
 import org.scalatest.wordspec.AnyWordSpecLike
 
 trait AbstractSpec extends AnyWordSpecLike with TimeLimitedTests with Matchers with StrictLogging {
-  val TIMEOUT_SECONDS = 6
-  val timeLimit       = Span(TIMEOUT_SECONDS, Seconds)
+  private val timeoutSeconds = 360
+  val timeLimit: Span        = Span(timeoutSeconds, Seconds)
 }

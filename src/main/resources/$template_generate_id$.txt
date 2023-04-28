@@ -1,114 +1,67 @@
 __PACKAGE__
 
-import io.getquill.NamingStrategy
-__SQL_IDIOM_IMPORT__
-__MONAD_IMPORT__
+import io.getquill.*
+import io.getquill.context.sql.idiom.SqlIdiom
 __BEAN_CLASS_IMPORT__
 __ID_CLASS_IMPORT__
 __REPOSITORY_TRAIT_IMPORT__
-__REPOSITORY_MACRO_TRAIT_IMPORT__
-__REPOSITORY_IMPORT__
-__EXECUTION_CONTEXT_IMPORT__
-__CONNECTION_IMPORT__
+__CUSTOM_IMPORTS__
 
 final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
-    protected val context: __CONTEXT_ALIAS__[__GENERIC_DECLARATION__],
-    protected val tableName: String = "__TABLE_NAME__"
-)
-  extends __REPOSITORY_TRAIT_SIMPLE_NAME__ {
+    protected val context: C)(
+    implicit meta: SchemaMeta[__BEAN__]
+) extends __REPOSITORY_TRAIT_SIMPLE_NAME__ {
 
-  protected def dynamicSchema: context.DynamicEntityQuery[__BEAN__] = dSchema
+  import context.*
 
-  private implicit def dSchema: context.DynamicEntityQuery[__BEAN__] = {
-      __IMPORT_CONTEXT__
-      context.dynamicQuerySchema[__BEAN__](tableName__COLUMN_MAPPING__)
+  protected def quoteQuery = quote {
+    query[__BEAN__]
   }
 
-  override def all__EXECUTION_CONTEXT__: __MONAD__[Seq[__BEAN__]] =
-   __TRY_START__
-      context.all[__BEAN__]__IMPLICIT_PARAMETERS__
-   __TRY_END__
+  protected inline def find(id: __ID__): Quoted[EntityQuery[__BEAN__]] = quote {
+    quoteQuery.filter(_.id == lift(id))
+  }
 
-  override def create(entity: __BEAN__, generateId: Boolean = true)__EXECUTION_CONTEXT__: __MONAD__[__ID__] =
-   __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-      if (generateId) {
-        context.createAndGenerateId[__ID__, __BEAN__](entity)__IMPLICIT_PARAMETERS__
-      } else {
-        context.create[__ID__, __BEAN__](entity)__IMPLICIT_PARAMETERS__
+  override def all: QIO[Seq[__BEAN__]] = {
+    run(quoteQuery)
+  }
+
+  override def create(entity: __BEAN__, generateId: Boolean = true): QIO[__ID__] =
+    if (generateId) {
+      run(quoteQuery.insertValue(lift(entity)).returningGenerated(_.id))
+    } else {
+      run(quoteQuery.insertValue(lift(entity)).returning(_.id))
+    }
+
+  override def createOrUpdate(entity: __BEAN__, generateId: Boolean = true): QIO[__ID__] = {
+    inTransaction {
+      for {
+        el <- run(find(entity.id).updateValue(lift(entity)))
+        id <- el match
+          case 0 =>
+            create(entity, generateId)
+          case _ =>
+            pure(entity.id)
+      } yield {
+        id
       }
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
+    }
+  }
 
-  override def createAndRead(entity: __BEAN__, generateId: Boolean = true)__EXECUTION_CONTEXT__: __MONAD__[__BEAN__] =
-   __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-      if (generateId) {
-        context.createWithGenerateIdAndRead[__ID__, __BEAN__](entity)__IMPLICIT_TRANSACTION_PARAMETERS__
-      } else {
-        context.createAndRead[__ID__, __BEAN__](entity)__IMPLICIT_TRANSACTION_PARAMETERS__
-      }
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
+  override def read(id: __BEAN__Id): QIO[Option[__BEAN__]] =
+    for {
+      seq <- run(find(id))
+    } yield {
+      seq.headOption
+    }
 
-  override def createOrUpdate(entity: __BEAN__, generateId: Boolean = true)__EXECUTION_CONTEXT__: __MONAD__[__ID__] =
-   __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-        if (generateId) {
-          context.createAndGenerateIdOrUpdate[__ID__, __BEAN__](entity)__IMPLICIT_TRANSACTION_PARAMETERS__
-        } else {
-           context.createOrUpdate[__ID__, __BEAN__](entity)__IMPLICIT_TRANSACTION_PARAMETERS__
-        }
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
+  override def update(entity: __BEAN__): QIO[Long] =
+    run(find(entity.id).updateValue(lift(entity)))
 
-  override def createOrUpdateAndRead(entity: __BEAN__, generateId: Boolean = true)__EXECUTION_CONTEXT__: __MONAD__[__BEAN__] =
-  __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-      if (generateId) {
-        context.createWithGenerateIdOrUpdateAndRead[__ID__, __BEAN__](entity)__IMPLICIT_TRANSACTION_PARAMETERS__
-      } else {
-         context.createOrUpdateAndRead[__ID__, __BEAN__](entity)__IMPLICIT_TRANSACTION_PARAMETERS__
-      }
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
+  override def delete(id: __BEAN__Id): QIO[Long] =
+    run(find(id).delete)
 
-  override def read(id: __ID__)__EXECUTION_CONTEXT__: __MONAD__[Option[__BEAN__]] =
-   __TRY_START__
-      context.read[__ID__, __BEAN__](id)__IMPLICIT_PARAMETERS__
-   __TRY_END__
-
-  override def readUnsafe(id: __ID__)__EXECUTION_CONTEXT__: __MONAD__[__BEAN__] =
-   __TRY_START__
-        context.readUnsafe[__ID__, __BEAN__](id)__IMPLICIT_PARAMETERS__
-   __TRY_END__
-
-  override def update(entity: __BEAN__)__EXECUTION_CONTEXT__: __MONAD__[__UPDATE__] =
-   __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-        context.update[__ID__, __BEAN__](entity)__IMPLICIT_PARAMETERS__
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
-
-  override def updateAndRead(entity: __BEAN__)__EXECUTION_CONTEXT__: __MONAD__[__BEAN__] =
-   __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-        context.updateAndRead[__ID__, __BEAN__](entity)__IMPLICIT_TRANSACTION_PARAMETERS__
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
-
-  override def delete(id: __ID__)__EXECUTION_CONTEXT__: __MONAD__[__UPDATE__] =
-   __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-        context.delete[__ID__, __BEAN__](id)__IMPLICIT_PARAMETERS__
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
-
-  override def deleteAll__EXECUTION_CONTEXT__: __MONAD__[__UPDATE__] =
-   __TRY_START__
-    __CONTEXT_TRANSACTION_START__
-         context.deleteAll__IMPLICIT_PARAMETERS__
-    __CONTEXT_TRANSACTION_END__
-   __TRY_END__
+  override def deleteAll(): QIO[Long] =
+    run(quoteQuery.delete)
 
 }

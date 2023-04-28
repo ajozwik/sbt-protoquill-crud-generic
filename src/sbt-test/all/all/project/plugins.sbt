@@ -6,8 +6,8 @@ val quillMacroVersion = sys.props.get("plugin.version") match {
                  |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
 }
 
-resolvers += Resolver.sonatypeRepo("releases")
+resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-resolvers += Resolver.sonatypeRepo("snapshots")
+resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-addSbtPlugin("com.github.ajozwik" % "sbt-quill-crud-generic" % quillMacroVersion)
+addSbtPlugin("com.github.ajozwik" % "sbt-protoquill-crud-generic" % quillMacroVersion)

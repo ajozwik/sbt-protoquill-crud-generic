@@ -1,13 +1,14 @@
-package pl.jozwik.example.monix
+package pl.jozwik.example.zio
 
-import monix.eval.Task
+import io.getquill.*
 import pl.jozwik.example.domain.model.{ Configuration, ConfigurationId }
-import pl.jozwik.example.monix.repository.ConfigurationRepositoryGen
-import pl.jozwik.quillgeneric.quillmacro.Repository
+import pl.jozwik.example.zio.repository.ConfigurationRepositoryGen
+import pl.jozwik.quillgeneric.repository.Repository
+import pl.jozwik.quillgeneric.zio.QIO
+trait ConfigurationSuite extends AbstractZioJdbcSpec {
+  private implicit val configurationSchema: SchemaMeta[Configuration] = schemaMeta("CONFIGURATION", _.id -> "`KEY`", _.value -> "`VALUE`")
 
-trait ConfigurationSuite extends AbstractJdbcZioSpec {
-
-  private lazy val repository: Repository[Task, ConfigurationId, Configuration, Long] = new ConfigurationRepositoryGen(ctx)
+  private lazy val repository: Repository[QIO, ConfigurationId, Configuration, Long] = new ConfigurationRepositoryGen(ctx)
 
   "Configuration " should {
     "Call all operation " in {

@@ -1,8 +1,11 @@
-package pl.jozwik.example.monix
+package pl.jozwik.example.zio
 
-import pl.jozwik.example.domain.model.{ Address, AddressId }
+import pl.jozwik.example.domain.model.{Address, AddressId}
+import pl.jozwik.example.zio.repository.AddressRepositoryGen
+import io.getquill.*
+trait AddressSuite extends AbstractZioJdbcSpec {
+  private lazy val addressRepository = new AddressRepositoryGen(ctx)(schemaMeta[Address]("ADDRESS"))
 
-trait AddressSuite extends AbstractJdbcZioSpec {
   "Address " should {
       "Batch update address " in {
         val city = "Rakow"
