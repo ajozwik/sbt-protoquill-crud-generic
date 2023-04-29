@@ -21,7 +21,7 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
   private val header: String = readTemplate(headerFile)
 
   def generate(rootPath: File)(description: RepositoryDescription): (File, String) = {
-    import description._
+    import description.*
     val templateFile = chooseTemplate(generateId)
     val content      = readTemplate(templateFile)
     val path         = Paths.get(rootPath.getAbsolutePath, packageName: _*)
@@ -44,11 +44,14 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
       .replace(BeanIdClassImport, createImport(packageName, beanIdPackageName, beanIdClass.name))
       .replace(RepositoryImport, defaultRepositoryImport)
       .replace(DialectTemplate, Dialect)
+      .replace(Monad, monad)
       .replace(NamingTemplate, Naming)
       .replace(ContextAlias, aliasName)
       .replace(SqlIdiomImport, sqlIdiomImport)
       .replace(CustomImports, customImports)
       .replace(FindByKey, findByKey)
+      .replace(TryStart, tryStart)
+      .replace(TryEnd, tryEnd)
     (file, s"$header\n$result")
   }
 

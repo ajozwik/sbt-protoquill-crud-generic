@@ -1,6 +1,6 @@
 package pl.jozwik.quillgeneric.sbt
 
-import sbt._
+import sbt.*
 
 object DependencyHelper {
 

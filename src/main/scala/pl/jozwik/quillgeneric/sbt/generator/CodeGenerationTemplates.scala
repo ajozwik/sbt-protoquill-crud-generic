@@ -12,6 +12,7 @@ trait CodeGenerationTemplates {
   val CustomImports                  = "__CUSTOM_IMPORTS__"
   val DialectTemplate                = "__DIALECT__"
   val FindByKey                      = "__FIND_BY_KEY__"
+  val Monad                          = "__MONAD__"
   val NamingTemplate                 = "__NAMING__"
   val PackageTemplate                = "__PACKAGE__"
   val RepositoryClassTemplate        = "__REPOSITORY_NAME__"
@@ -20,4 +21,6 @@ trait CodeGenerationTemplates {
   val RepositoryTraitImport          = "__REPOSITORY_TRAIT_IMPORT__"
   val RepositoryTraitSimpleClassName = "__REPOSITORY_TRAIT_SIMPLE_NAME__"
   val SqlIdiomImport                 = "__SQL_IDIOM_IMPORT__"
+  val TryEnd                         = "__TRY_END__"
+  val TryStart                       = "__TRY_START__"
 }

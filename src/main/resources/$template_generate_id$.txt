@@ -22,21 +22,20 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
     quoteQuery.__FIND_BY_KEY__
   }
 
-  override def all: QIO[Seq[__BEAN__]] = {
-    run(quoteQuery)
-  }
+  override def all: __MONAD__[Seq[__BEAN__]] =
+    __TRY_START__run(quoteQuery)__TRY_END__
 
-  override def create(entity: __BEAN__, generateId: Boolean = true): QIO[__ID__] =
-    if (generateId) {
+  override def create(entity: __BEAN__, generateId: Boolean = true): __MONAD__[__ID__] =
+    __TRY_START__if (generateId) {
       run(quoteQuery.insertValue(lift(entity)).returningGenerated(_.id))
     } else {
       run(quoteQuery.insertValue(lift(entity)).returning(_.id))
-    }
+    }__TRY_END__
 
-  override def createOrUpdate(entity: __BEAN__, generateId: Boolean = true): QIO[__ID__] = {
+  override def createOrUpdate(entity: __BEAN__, generateId: Boolean = true): __MONAD__[__ID__] = {
     inTransaction {
       for {
-        el <- run(find(entity.id).updateValue(lift(entity)))
+        el <- __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
         id <- el match
           case 0 =>
             create(entity, generateId)
@@ -48,20 +47,20 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
     }
   }
 
-  override def read(id: __BEAN__Id): QIO[Option[__BEAN__]] =
+  override def read(id: __BEAN__Id): __MONAD__[Option[__BEAN__]] =
     for {
-      seq <- run(find(id))
+      seq <- __TRY_START__run(find(id))__TRY_END__
     } yield {
       seq.headOption
     }
 
-  override def update(entity: __BEAN__): QIO[Long] =
-    run(find(entity.id).updateValue(lift(entity)))
+  override def update(entity: __BEAN__): __MONAD__[Long] =
+    __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
 
-  override def delete(id: __BEAN__Id): QIO[Long] =
-    run(find(id).delete)
+  override def delete(id: __BEAN__Id): __MONAD__[Long] =
+    __TRY_START__run(find(id).delete)__TRY_END__
 
-  override def deleteAll(): QIO[Long] =
-    run(quoteQuery.delete)
+  override def deleteAll(): __MONAD__[Long] =
+    __TRY_START__run(quoteQuery.delete)__TRY_END__
 
 }

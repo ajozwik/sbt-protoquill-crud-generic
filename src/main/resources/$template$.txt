@@ -22,20 +22,20 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
     quoteQuery.__FIND_BY_KEY__
   }
 
-  override def all: QIO[Seq[__BEAN__]] =
-    run(quoteQuery)
+  override def all: __MONAD__[Seq[__BEAN__]] =
+    __TRY_START__run(quoteQuery)__TRY_END__
 
-  override def create(entity: __BEAN__): QIO[__ID__] =
+  override def create(entity: __BEAN__): __MONAD__[__ID__] =
     for {
-      _ <- run(quoteQuery.insertValue(lift(entity)))
+      _ <- __TRY_START__run(quoteQuery.insertValue(lift(entity)))__TRY_END__
     } yield {
       entity.id
     }
 
-  override def createOrUpdate(entity: __BEAN__): QIO[__ID__] =
+  override def createOrUpdate(entity: __BEAN__): __MONAD__[__ID__] =
     context.transaction {
       for {
-        el <- run(find(entity.id).updateValue(lift(entity)))
+        el <- __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
         id <- el match
           case 0 =>
             create(entity)
@@ -46,20 +46,20 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
       }
     }
 
-  override def read(id: __ID__): QIO[Option[__BEAN__]] =
+  override def read(id: __ID__): __MONAD__[Option[__BEAN__]] =
     for {
-      seq <- run(find(id))
+      seq <- __TRY_START__run(find(id))__TRY_END__
     } yield {
       seq.headOption
     }
 
-  override def update(entity: __BEAN__): QIO[Long] =
-    run(find(entity.id).updateValue(lift(entity)))
+  override def update(entity: __BEAN__): __MONAD__[Long] =
+    __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
 
-  override def delete(id: __ID__): QIO[Long] =
-    run(find(id).delete)
+  override def delete(id: __ID__): __MONAD__[Long] =
+    __TRY_START__run(find(id).delete)__TRY_END__
 
-  override def deleteAll(): QIO[Long] =
-    run(quoteQuery.delete)
+  override def deleteAll(): __MONAD__[Long] =
+    __TRY_START__run(quoteQuery.delete)__TRY_END__
 
 }

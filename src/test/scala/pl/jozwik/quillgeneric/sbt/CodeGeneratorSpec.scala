@@ -1,11 +1,13 @@
 package pl.jozwik.quillgeneric.sbt
 
 import pl.jozwik.quillgeneric.sbt.generator.Generator
-import pl.jozwik.quillgeneric.sbt.generator.jdbc.ZioJdbcCodeGenerator
+import pl.jozwik.quillgeneric.sbt.generator.jdbc.{TryJdbcCodeGenerator, ZioJdbcCodeGenerator}
 
 import java.io.File
 
 class ZioGeneratorCodeSpec extends AbstractCodeGeneratorSpec(ZioJdbcCodeGenerator)
+
+class TryGeneratorCodeSpec extends AbstractCodeGeneratorSpec(TryJdbcCodeGenerator)
 
 abstract class AbstractCodeGeneratorSpec(generator: Generator) extends AbstractSpec {
 

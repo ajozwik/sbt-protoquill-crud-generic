@@ -8,7 +8,6 @@ import pl.jozwik.example.domain.repository.PersonRepository
 import pl.jozwik.quillgeneric.zio.{ QIO, ZioJdbcContextWithDateQuotes }
 import pl.jozwik.quillgeneric.zio.ZioJdbcRepositoryWithTransactionWithGeneratedId
 import io.getquill.*
-import pl.ds.quillgeneric.monad.BaseRepositoryMonadWithTransaction
 import io.getquill.extras.LocalDateOps
 trait PersonRepositoryImpl[+Dialect <: SqlIdiom, +Naming <: NamingStrategy, C <: ZioJdbcContextWithDateQuotes[Dialect, Naming]]
   extends ZioJdbcRepositoryWithTransactionWithGeneratedId[ PersonId, Person, C, Dialect, Naming]

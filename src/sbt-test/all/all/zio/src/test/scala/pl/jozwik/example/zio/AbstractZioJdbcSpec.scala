@@ -4,13 +4,13 @@ import io.getquill.H2ZioJdbcContext
 import io.getquill.jdbczio.Quill
 import org.scalatest.BeforeAndAfterAll
 import pl.jozwik.quillgeneric.zio.QIO
-import pl.jozwik.example.AbstractSpec
-import zio.{ Tag, Unsafe, ZEnvironment, ZLayer }
+import pl.jozwik.example.{AbstractSpec, PoolHelper}
+import zio.{Tag, Unsafe, ZEnvironment, ZLayer}
 
 import javax.sql.DataSource
 
 object ZioHelperSpec {
-  val pool: DataSource = runLayerUnsafe(Quill.DataSource.fromPrefix("h2"))
+  val pool: DataSource = runLayerUnsafe(Quill.DataSource.fromPrefix(PoolHelper.PoolName))
 
   def runLayerUnsafe[T: Tag](layer: ZLayer[Any, Throwable, T]): T =
     zio.Unsafe.unsafe { implicit unsafe =>
