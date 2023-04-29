@@ -1,13 +1,13 @@
 package pl.jozwik.example.monad
 
 import io.getquill.*
-import pl.jozwik.example.domain.model.{Configuration, ConfigurationId}
+import pl.jozwik.example.domain.model.{ Configuration, ConfigurationId }
 import pl.jozwik.example.monad.repository.ConfigurationRepositoryGen
 
 trait ConfigurationSuite extends AbstractTryJdbcSpec {
 
-  private implicit val meta: SchemaMeta[Configuration] = schemaMeta[Configuration]("CONFIGURATION", _.id -> "`CONFIGURATION_KEY`" , _.value -> "`CONFIGURATION_VALUE`")
-  private lazy val repository = new ConfigurationRepositoryGen(ctx)
+  private implicit val meta: SchemaMeta[Configuration] = schemaMeta[Configuration]("CONFIGURATION", _.id -> "`KEY`", _.value -> "`VALUE`")
+  private lazy val repository                          = new ConfigurationRepositoryGen(ctx)
 
   "ConfigurationRepository " should {
     "All is empty" in {
