@@ -23,7 +23,11 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
   }
 
   override def all: __MONAD__[Seq[__BEAN__]] =
-    __TRY_START__run(quoteQuery)__TRY_END__
+    for {
+      all <- __TRY_START__run(quoteQuery)__TRY_END__
+    } yield {
+      all
+    }
 
   override def create(entity: __BEAN__, generateId: Boolean = true): __MONAD__[__ID__] =
     __TRY_START__if (generateId) {

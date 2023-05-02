@@ -23,7 +23,12 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
   }
 
   override def all: __MONAD__[Seq[__BEAN__]] =
-    __TRY_START__run(quoteQuery)__TRY_END__
+   for {
+     all <- __TRY_START__run(quoteQuery)__TRY_END__
+   } yield {
+     all
+   }
+
 
   override def create(entity: __BEAN__): __MONAD__[__ID__] =
     for {
@@ -33,7 +38,7 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
     }
 
   override def createOrUpdate(entity: __BEAN__): __MONAD__[__ID__] =
-    context.transaction {
+    inTransaction {
       for {
         el <- __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
         id <- el match

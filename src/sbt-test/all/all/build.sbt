@@ -34,6 +34,7 @@ val scalaTestVersion = "3.2.15"
 val `ch.qos.logback_logback-classic`           = "ch.qos.logback"              % "logback-classic" % "1.2.11"
 val `com.h2database_h2`                        = "com.h2database"              % "h2"              % "2.1.214"
 val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging"   % "3.9.5"
+val `org.tpolecat_doobie-h2`                   = "org.tpolecat"               %% "doobie-h2"       % "1.0.0-RC2"
 val `org.scalacheck_scalacheck`                = "org.scalacheck"             %% "scalacheck"      % "1.17.0"         % Test
 val `org.scalatest_scalatest`                  = "org.scalatest"              %% "scalatest"       % scalaTestVersion % Test
 val `org.scalatestplus_scalacheck`             = "org.scalatestplus"          %% "scalacheck-1-17" % s"$scalaTestVersion.0"
@@ -52,54 +53,7 @@ val generateMonadRepositoryPackage = s"$monadPackage.repository"
 
 lazy val monad = projectWithSbtPlugin("monad", file("monad"))
   .settings(
-    generateTryRepositories ++= Seq(
-      RepositoryDescription(
-        s"$domainModelPackage.Address",
-        BeanIdClass(s"$domainModelPackage.AddressId"),
-        s"$generateMonadRepositoryPackage.AddressRepositoryGen",
-        true,
-        Option(s"$monadRepositoryPackage.AddressRepositoryImpl[Dialect, Naming, C]"),
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Cell4d",
-        BeanIdClass(s"$domainModelPackage.Cell4dId", Option(4)),
-        s"$generateMonadRepositoryPackage.Cell4dRepositoryGen",
-        false,
-        None,
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Configuration",
-        BeanIdClass(s"$domainModelPackage.ConfigurationId"),
-        s"$generateMonadRepositoryPackage.ConfigurationRepositoryGen",
-        false,
-        None,
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Person",
-        BeanIdClass(s"$domainModelPackage.PersonId"),
-        s"$generateMonadRepositoryPackage.PersonRepositoryGen",
-        true,
-        Option(s"$monadRepositoryPackage.PersonRepositoryImpl[Dialect, Naming, C]"),
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Product",
-        BeanIdClass(s"$domainModelPackage.ProductId"),
-        s"$generateMonadRepositoryPackage.ProductRepositoryGen",
-        true
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Sale",
-        BeanIdClass(s"$domainModelPackage.SaleId", Option(2)),
-        s"$generateMonadRepositoryPackage.SaleRepositoryGen",
-        false,
-        None,
-        None
-      )
-    )
+    generateTryRepositories ++= repositories(monadRepositoryPackage, generateMonadRepositoryPackage)
   )
 
 val zioPackage                   = s"$basePackage.zio"
@@ -108,55 +62,67 @@ val generateZioRepositoryPackage = s"$zioPackage.repository"
 
 lazy val zio = projectWithSbtPlugin("zio", file("zio"))
   .settings(
-    generateZioRepositories ++= Seq(
-      RepositoryDescription(
-        s"$domainModelPackage.Address",
-        BeanIdClass(s"$domainModelPackage.AddressId"),
-        s"$generateZioRepositoryPackage.AddressRepositoryGen",
-        true,
-        Option(s"$zioRepositoryPackage.AddressRepositoryImpl[Dialect, Naming, C]"),
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Cell4d",
-        BeanIdClass(s"$domainModelPackage.Cell4dId", Option(4)),
-        s"$generateZioRepositoryPackage.Cell4dRepositoryGen",
-        false,
-        None,
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Configuration",
-        BeanIdClass(s"$domainModelPackage.ConfigurationId"),
-        s"$generateZioRepositoryPackage.ConfigurationRepositoryGen",
-        false,
-        None,
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Person",
-        BeanIdClass(s"$domainModelPackage.PersonId"),
-        s"$generateZioRepositoryPackage.PersonRepositoryGen",
-        true,
-        Option(s"$zioRepositoryPackage.PersonRepositoryImpl[Dialect, Naming, C]"),
-        None
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Product",
-        BeanIdClass(s"$domainModelPackage.ProductId"),
-        s"$generateZioRepositoryPackage.ProductRepositoryGen",
-        true
-      ),
-      RepositoryDescription(
-        s"$domainModelPackage.Sale",
-        BeanIdClass(s"$domainModelPackage.SaleId", Option(2)),
-        s"$generateZioRepositoryPackage.SaleRepositoryGen",
-        false,
-        None,
-        None
-      )
-    )
+    generateZioRepositories ++= repositories(zioRepositoryPackage, generateZioRepositoryPackage)
   )
+
+val doobiePackage                   = s"$basePackage.doobie"
+val doobieRepositoryPackage         = s"$doobiePackage.impl"
+val generateDoobieRepositoryPackage = s"$doobiePackage.repository"
+
+lazy val doobie = projectWithSbtPlugin("doobie", file("doobie"))
+  .settings(
+    generateDoobieRepositories ++= repositories(doobieRepositoryPackage, generateDoobieRepositoryPackage),
+    libraryDependencies ++= Seq(`org.tpolecat_doobie-h2` % Test)
+  )
+
+def repositories(implementationPackage: String, generatePackage: String) = Seq(
+  RepositoryDescription(
+    s"$domainModelPackage.Address",
+    BeanIdClass(s"$domainModelPackage.AddressId"),
+    s"$generatePackage.AddressRepositoryGen",
+    true,
+    Option(s"$implementationPackage.AddressRepositoryImpl[Dialect, Naming, C]"),
+    None
+  ),
+  RepositoryDescription(
+    s"$domainModelPackage.Cell4d",
+    BeanIdClass(s"$domainModelPackage.Cell4dId", Option(4)),
+    s"$generatePackage.Cell4dRepositoryGen",
+    false,
+    None,
+    None
+  ),
+  RepositoryDescription(
+    s"$domainModelPackage.Configuration",
+    BeanIdClass(s"$domainModelPackage.ConfigurationId"),
+    s"$generatePackage.ConfigurationRepositoryGen",
+    false,
+    None,
+    None
+  ),
+  RepositoryDescription(
+    s"$domainModelPackage.Person",
+    BeanIdClass(s"$domainModelPackage.PersonId"),
+    s"$generatePackage.PersonRepositoryGen",
+    true,
+    Option(s"$implementationPackage.PersonRepositoryImpl[Dialect, Naming, C]"),
+    None
+  ),
+  RepositoryDescription(
+    s"$domainModelPackage.Product",
+    BeanIdClass(s"$domainModelPackage.ProductId"),
+    s"$generatePackage.ProductRepositoryGen",
+    true
+  ),
+  RepositoryDescription(
+    s"$domainModelPackage.Sale",
+    BeanIdClass(s"$domainModelPackage.SaleId", Option(2)),
+    s"$generatePackage.SaleRepositoryGen",
+    false,
+    None,
+    None
+  )
+)
 
 def projectWithSbtPlugin(name: String, file: File): Project =
   projectWithName(name, file)
