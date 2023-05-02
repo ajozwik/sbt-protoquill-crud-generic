@@ -6,6 +6,7 @@ import pl.jozwik.quillgeneric.sbt.RepositoryDescription
 import sbt.*
 
 import scala.io.{ Codec, Source }
+import scala.util.control.NonFatal
 
 abstract class AbstractCodeGenerator extends Generator with CodeGenerationTemplates {
   private val Dialect                            = "Dialect"
@@ -64,8 +65,8 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
     packageName match {
       case Seq() =>
         ""
-      case s =>
-        s"""package ${s.mkString(".")}"""
+      case _ =>
+        s"""package ${packageName.mkString(".")}"""
     }
 
   private def toRepositoryTraitImport(
@@ -86,10 +87,11 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
 
     } else {
       val clazzName = repositoryTrait.getOrElse("")
-      val withoutGeneric = clazzName.indexOf('[') match {
+      val index     = clazzName.indexOf('[')
+      val withoutGeneric = index match {
         case -1 =>
           clazzName
-        case index =>
+        case _ =>
           clazzName.substring(0, index)
       }
       val imp = createImport(packageName, repositoryPackageName, withoutGeneric)
@@ -107,7 +109,7 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
     try {
       Source.fromInputStream(input)(Codec.UTF8).mkString
     } catch {
-      case e: Throwable =>
+      case NonFatal(e) =>
         print(s"$templateResource")
         e.printStackTrace()
         throw e
