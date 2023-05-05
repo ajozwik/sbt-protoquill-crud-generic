@@ -6,6 +6,7 @@ import sbt.plugins.JvmPlugin
 import DependencyHelper.*
 import pl.jozwik.quillgeneric.sbt.generator.jdbc.*
 import pl.jozwik.quillgeneric.sbt.generator.Generator
+import pl.jozwik.quillgeneric.sbt.generator.cassandra.CassandraCodeGenerator
 
 object QuillRepositoryPlugin extends AutoPlugin {
 
@@ -31,13 +32,15 @@ object QuillRepositoryPlugin extends AutoPlugin {
         val rootPath = (Compile / sourceManaged).value
         generate(generateZioRepositories.value, rootPath, ZioJdbcCodeGenerator) ++
           generate(generateTryRepositories.value, rootPath, TryJdbcCodeGenerator) ++
-          generate(generateDoobieRepositories.value, rootPath, DoobieJdbcCodeGenerator)
+          generate(generateDoobieRepositories.value, rootPath, DoobieJdbcCodeGenerator) ++
+          generate(generateCassandraRepositories.value, rootPath, CassandraCodeGenerator)
       }.taskValue,
       libraryDependencies ++= Seq(
         addImport(true, "repository", protoQuillGenericVersion.value),
         addImport(generateTryRepositories.value.nonEmpty, "repository-jdbc-monad", protoQuillGenericVersion.value),
         addImport(generateZioRepositories.value.nonEmpty, "quill-jdbc-zio", protoQuillGenericVersion.value),
-        addImport(generateDoobieRepositories.value.nonEmpty, "repository-doobie", protoQuillGenericVersion.value)
+        addImport(generateDoobieRepositories.value.nonEmpty, "repository-doobie", protoQuillGenericVersion.value),
+        addImport(generateCassandraRepositories.value.nonEmpty, "repository-cassandra", protoQuillGenericVersion.value)
       ).flatten
     )
   }

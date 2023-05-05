@@ -37,19 +37,8 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
       entity.id
     }
 
-  override def createOrUpdate(entity: __BEAN__): __MONAD__[__ID__] =
-    inTransaction {
-      for {
-        el <- __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
-        id <- el match
-          case 0 =>
-            create(entity)
-          case _ =>
-            pure(entity.id)
-      } yield {
-        id
-      }
-    }
+__CREATE_OR_UPDATE__
+
 
   override def read(id: __ID__): __MONAD__[Option[__BEAN__]] =
     for {
@@ -58,13 +47,13 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
       seq.headOption
     }
 
-  override def update(entity: __BEAN__): __MONAD__[Long] =
+  override def update(entity: __BEAN__): __MONAD__[__UP__] =
     __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
 
-  override def delete(id: __ID__): __MONAD__[Long] =
+  override def delete(id: __ID__): __MONAD__[__UP__] =
     __TRY_START__run(find(id).delete)__TRY_END__
 
-  override def deleteAll(): __MONAD__[Long] =
+  override def deleteAll(): __MONAD__[__UP__] =
     __TRY_START__run(quoteQuery.delete)__TRY_END__
 
 }

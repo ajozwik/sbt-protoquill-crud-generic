@@ -10,8 +10,8 @@ import pl.jozwik.quillgeneric.doobie.*
 
 import java.time.LocalDate
 trait PersonRepositoryImpl[+Dialect <: SqlIdiom, +Naming <: NamingStrategy, C <: DoobieJdbcContextWithDateQuotes[Dialect, Naming]]
-  extends DoobieJdbcRepositoryWithTransactionWithGeneratedId[PersonId, Person, C, Dialect, Naming]
-  with PersonRepository[ConnectionIO] {
+  extends DoobieRepositoryWithTransactionWithGeneratedId[PersonId, Person, C, Dialect, Naming]
+  with PersonRepository[ConnectionIO, Long] {
   import context.*
   def searchByFirstName(name: String)(offset: Int, limit: Int): ConnectionIO[Seq[Person]] = {
     val q = quoteQuery.filter(_.firstName == lift(name)).filter(_.lastName != lift("")).drop(lift(offset)).take(lift(limit))

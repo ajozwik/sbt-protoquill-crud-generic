@@ -9,8 +9,8 @@ import pl.jozwik.quillgeneric.doobie.*
 
 import java.time.LocalDateTime
 trait AddressRepositoryImpl[+Dialect <: SqlIdiom, +Naming <: NamingStrategy, C <: DoobieJdbcContextWithDateQuotes[Dialect, Naming]]
-  extends DoobieJdbcRepositoryWithTransactionWithGeneratedId[AddressId, Address, C, Dialect, Naming]
-  with AddressRepository[ConnectionIO] {
+  extends DoobieRepositoryWithTransactionWithGeneratedId[AddressId, Address, C, Dialect, Naming]
+  with AddressRepository[ConnectionIO, Long] {
   import context.*
   override def setCountryIfCity(city: String, country: String): ConnectionIO[Long] = {
     val now = LocalDateTime.now

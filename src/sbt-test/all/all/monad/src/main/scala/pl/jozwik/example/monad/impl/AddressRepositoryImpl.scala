@@ -9,14 +9,14 @@ import java.time.LocalDateTime
 import scala.util.Try
 trait AddressRepositoryImpl[+Dialect <: SqlIdiom, +Naming <: NamingStrategy, C <: TryJdbcContextWithDateQuotes[Dialect, Naming]]
   extends TryJdbcRepositoryWithGeneratedId[AddressId, Address, C, Dialect, Naming]
-  with AddressRepository[Try] {
+  with AddressRepository[Try, Long] {
   import context.*
   override def setCountryIfCity(city: String, country: String): Try[Long] = {
     val now = LocalDateTime.now
     for {
       r <- Try {
         run {
-          query[Address]
+          quoteQuery
             .filter(_.city == lift(city))
             .update(_.country -> lift(country), _.updated -> lift(Option(now)))
         }

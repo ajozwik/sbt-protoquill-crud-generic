@@ -25,13 +25,13 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
     import description.*
     val templateFile = chooseTemplate(generateId)
     val content      = readTemplate(templateFile)
-    val path         = Paths.get(rootPath.getAbsolutePath, packageName: _*)
+    val path         = Paths.get(rootPath.getAbsolutePath, packageName*)
     val dir          = path.toFile
     mkdirs(dir)
     val pName = toPackageName(packageName)
     val file  = dir / s"$repositorySimpleClassName.scala"
     val (repositoryTraitSimpleClassName, repositoryImport, defaultRepositoryImport) =
-      toRepositoryTraitImport(repositoryTrait, packageName, repositoryPackageName, repositoryTraitSimpleClassNameOpt, generateId, beanIdClass.keyLength)
+      toRepositoryTraitImport(repositoryTrait, packageName, repositoryPackageName, repositoryTraitSimpleClassNameOpt, generateId)
     val genericContent = toGenericContent(content)
     val findByKey      = toFindByKey(description.beanIdClass.keyLength)
     val result = genericContent
@@ -43,7 +43,10 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
       .replace(BeanClassImport, createImport(packageName, beanPackageName, beanClass))
       .replace(BeanIdTemplate, beanIdSimpleClassName)
       .replace(BeanIdClassImport, createImport(packageName, beanIdPackageName, beanIdClass.name))
+      .replace(ContextTransactionStart, contextTransactionStart)
+      .replace(ContextTransactionEnd, contextTransactionEnd)
       .replace(RepositoryImport, defaultRepositoryImport)
+      .replace(Update, update)
       .replace(DialectTemplate, Dialect)
       .replace(Monad, monad)
       .replace(NamingTemplate, Naming)
@@ -58,6 +61,7 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
 
   private def toGenericContent(content: String) =
     content
+      .replace(CreateOrUpdate, createOrUpdate)
       .replace(AliasGenericDeclaration, aliasGenericDeclaration)
       .replace(RepositoryDomainTraitImport, importDomainTraitRepository)
 
@@ -74,8 +78,7 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
       packageName: Seq[String],
       repositoryPackageName: Seq[String],
       repositoryTraitSimpleClassNameOpt: String,
-      generateId: Boolean,
-      keyLength: Option[Byte]
+      generateId: Boolean
   ) =
     if (repositoryTraitSimpleClassNameOpt.isEmpty) {
       val (repository, repositoryImport) = if (generateId) {
@@ -145,7 +148,7 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
   private def findBy(key: Int) = s"filter(_.id.fk$key == lift(id.fk$key))"
 
   private def repositoryWithGeneric =
-    (s"$domainRepository[$BeanIdTemplate, $BeanTemplate,  $genericDeclaration]", s"import $genericPackage.$domainRepository")
+    (s"$domainRepository[$BeanIdTemplate, $BeanTemplate, $genericDeclaration]", s"import $genericPackage.$domainRepository")
 
   private def chooseTemplate(generateId: Boolean): String =
     if (generateId) {

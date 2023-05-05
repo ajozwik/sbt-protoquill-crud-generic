@@ -75,54 +75,74 @@ lazy val doobie = projectWithSbtPlugin("doobie", file("doobie"))
     libraryDependencies ++= Seq(`org.tpolecat_doobie-h2` % Test)
   )
 
-def repositories(implementationPackage: String, generatePackage: String) = Seq(
-  RepositoryDescription(
-    s"$domainModelPackage.Address",
-    BeanIdClass(s"$domainModelPackage.AddressId"),
-    s"$generatePackage.AddressRepositoryGen",
-    true,
-    Option(s"$implementationPackage.AddressRepositoryImpl[Dialect, Naming, C]"),
-    None
-  ),
-  RepositoryDescription(
-    s"$domainModelPackage.Cell4d",
-    BeanIdClass(s"$domainModelPackage.Cell4dId", Option(4)),
-    s"$generatePackage.Cell4dRepositoryGen",
-    false,
-    None,
-    None
-  ),
-  RepositoryDescription(
-    s"$domainModelPackage.Configuration",
-    BeanIdClass(s"$domainModelPackage.ConfigurationId"),
-    s"$generatePackage.ConfigurationRepositoryGen",
-    false,
-    None,
-    None
-  ),
-  RepositoryDescription(
-    s"$domainModelPackage.Person",
-    BeanIdClass(s"$domainModelPackage.PersonId"),
-    s"$generatePackage.PersonRepositoryGen",
-    true,
-    Option(s"$implementationPackage.PersonRepositoryImpl[Dialect, Naming, C]"),
-    None
-  ),
-  RepositoryDescription(
-    s"$domainModelPackage.Product",
-    BeanIdClass(s"$domainModelPackage.ProductId"),
-    s"$generatePackage.ProductRepositoryGen",
-    true
-  ),
-  RepositoryDescription(
-    s"$domainModelPackage.Sale",
-    BeanIdClass(s"$domainModelPackage.SaleId", Option(2)),
-    s"$generatePackage.SaleRepositoryGen",
-    false,
-    None,
-    None
+val cassandraPackage                   = s"$basePackage.cassandra"
+val cassandraRepositoryPackage         = s"$cassandraPackage.impl"
+val generateCassandraRepositoryPackage = s"$cassandraPackage.repository"
+
+lazy val cassandra = projectWithSbtPlugin("cassandra", file("cassandra"))
+  .settings(
+    generateCassandraRepositories ++= repositoriesWithoutLocalDateTime(cassandraRepositoryPackage, generateCassandraRepositoryPackage, "[Naming, C]", false),
+    libraryDependencies ++= Seq()
   )
-)
+
+def repositoriesWithoutLocalDateTime(
+    implementationPackage: String,
+    generatePackage: String,
+    generic: String = "[Dialect, Naming, C]",
+    generated: Boolean = true
+) =
+  Seq(
+    RepositoryDescription(
+      s"$domainModelPackage.Cell4d",
+      BeanIdClass(s"$domainModelPackage.Cell4dId", Option(4)),
+      s"$generatePackage.Cell4dRepositoryGen",
+      false,
+      None,
+      None
+    ),
+    RepositoryDescription(
+      s"$domainModelPackage.Configuration",
+      BeanIdClass(s"$domainModelPackage.ConfigurationId"),
+      s"$generatePackage.ConfigurationRepositoryGen",
+      false,
+      None,
+      None
+    ),
+    RepositoryDescription(
+      s"$domainModelPackage.Product",
+      BeanIdClass(s"$domainModelPackage.ProductId"),
+      s"$generatePackage.ProductRepositoryGen",
+      generated
+    )
+  )
+
+def repositories(implementationPackage: String, generatePackage: String, generic: String = "[Dialect, Naming, C]", generated: Boolean = true) =
+  repositoriesWithoutLocalDateTime(implementationPackage, generatePackage, generic, generated) ++ Seq(
+    RepositoryDescription(
+      s"$domainModelPackage.Address",
+      BeanIdClass(s"$domainModelPackage.AddressId"),
+      s"$generatePackage.AddressRepositoryGen",
+      generated,
+      Option(s"$implementationPackage.AddressRepositoryImpl$generic"),
+      None
+    ),
+    RepositoryDescription(
+      s"$domainModelPackage.Person",
+      BeanIdClass(s"$domainModelPackage.PersonId"),
+      s"$generatePackage.PersonRepositoryGen",
+      generated,
+      Option(s"$implementationPackage.PersonRepositoryImpl$generic"),
+      None
+    ),
+    RepositoryDescription(
+      s"$domainModelPackage.Sale",
+      BeanIdClass(s"$domainModelPackage.SaleId", Option(2)),
+      s"$generatePackage.SaleRepositoryGen",
+      false,
+      None,
+      None
+    )
+  )
 
 def projectWithSbtPlugin(name: String, file: File): Project =
   projectWithName(name, file)

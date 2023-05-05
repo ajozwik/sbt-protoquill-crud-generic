@@ -7,6 +7,10 @@ import pl.jozwik.quillgeneric.sbt.RepositoryDescription
 trait Generator {
   protected def aliasGenericDeclaration: String
   protected def aliasName: String
+
+  protected def createOrUpdate: String
+  protected def contextTransactionEnd: String
+  protected def contextTransactionStart: String
   protected def customImports: String
   protected def domainRepository: String
   protected def domainRepositoryWithGenerated: String
@@ -17,6 +21,7 @@ trait Generator {
   protected def sqlIdiomImport: String
   protected def tryEnd: String
   protected def tryStart: String
+  protected def update: String
 
   def generate(rootPath: File)(description: RepositoryDescription): (File, String)
 }
