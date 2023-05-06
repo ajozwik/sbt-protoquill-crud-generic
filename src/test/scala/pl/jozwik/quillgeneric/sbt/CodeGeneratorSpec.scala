@@ -36,8 +36,7 @@ abstract class AbstractCodeGeneratorSpec(generator: Generator, generatedId: Bool
         BeanIdClass("pl.jozwik.model.PersonId"),
         "pl.jozwik.repository.PersonRepository",
         generatedId,
-        Option(s"pl.jozwik.quillgeneric.sbt.MyPersonRepository$generic"),
-        None
+        Option(s"pl.jozwik.quillgeneric.sbt.MyPersonRepository$generic")
       )
       val (file: File, content: String) = generateAndLog(description)
       file.exists() shouldBe false

@@ -7,8 +7,7 @@ final case class RepositoryDescription(
     beanIdClass: BeanIdClass,
     repositoryClassName: String,
     generateId: Boolean = false,
-    repositoryTrait: Option[String] = None,
-    tableName: Option[String] = None
+    repositoryTrait: Option[String] = None
 ) {
 
   val (packageName: Seq[String], repositorySimpleClassName: String)   = toPackageNameSimpleClass(repositoryClassName)

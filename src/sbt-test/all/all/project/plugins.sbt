@@ -1,4 +1,4 @@
-val quillMacroVersion = sys.props.get("plugin.version") match {
+val quillGenericVersion = sys.props.get("plugin.version") match {
   case Some(pluginVersion) =>
     pluginVersion
   case _ =>
@@ -10,4 +10,4 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-addSbtPlugin("com.github.ajozwik" % "sbt-protoquill-crud-generic" % quillMacroVersion)
+addSbtPlugin("com.github.ajozwik" % "sbt-protoquill-crud-generic" % quillGenericVersion)
