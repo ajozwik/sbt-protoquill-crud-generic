@@ -1,7 +1,7 @@
 package pl.jozwik.example
 
 import java.time.{ LocalDate, LocalDateTime }
-
+import java.time.temporal.ChronoUnit
 import com.typesafe.scalalogging.StrictLogging
 import org.scalatest.concurrent.TimeLimitedTests
 import org.scalatest.matchers.should.Matchers
@@ -12,7 +12,7 @@ import pl.jozwik.example.domain.model.AddressId
 trait AbstractSpec extends AnyWordSpecLike with TimeLimitedTests with Matchers with StrictLogging {
   val TIMEOUT_SECONDS              = 60
   val timeLimit                    = Span(TIMEOUT_SECONDS, Seconds)
-  protected val now: LocalDateTime = LocalDateTime.now()
+  protected val now: LocalDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
   protected val today: LocalDate   = now.toLocalDate
   protected val strategy           = Strategy.namingStrategy
 

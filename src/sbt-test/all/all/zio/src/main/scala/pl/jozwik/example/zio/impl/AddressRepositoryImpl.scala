@@ -15,7 +15,7 @@ trait AddressRepositoryImpl[+Dialect <: SqlIdiom, +Naming <: NamingStrategy, C <
     val now = LocalDateTime.now
     for {
       r <- run {
-        query[Address]
+        quoteQuery
           .filter(_.city == lift(city))
           .update(_.country -> lift(country), _.updated -> lift(Option(now)))
       }
