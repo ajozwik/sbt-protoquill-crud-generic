@@ -97,7 +97,6 @@ def repositoriesWithoutLocalDateTime(
       BeanIdClass(s"$domainModelPackage.Cell4dId", Option(4)),
       s"$generatePackage.Cell4dRepositoryGen",
       false,
-      None,
       None
     ),
     RepositoryDescription(
@@ -105,7 +104,6 @@ def repositoriesWithoutLocalDateTime(
       BeanIdClass(s"$domainModelPackage.ConfigurationId"),
       s"$generatePackage.ConfigurationRepositoryGen",
       false,
-      None,
       None
     ),
     RepositoryDescription(
@@ -123,23 +121,20 @@ def repositories(implementationPackage: String, generatePackage: String, generic
       BeanIdClass(s"$domainModelPackage.AddressId"),
       s"$generatePackage.AddressRepositoryGen",
       generated,
-      Option(s"$implementationPackage.AddressRepositoryImpl$generic"),
-      None
+      Option(s"$implementationPackage.AddressRepositoryImpl$generic")
     ),
     RepositoryDescription(
       s"$domainModelPackage.Person",
       BeanIdClass(s"$domainModelPackage.PersonId"),
       s"$generatePackage.PersonRepositoryGen",
       generated,
-      Option(s"$implementationPackage.PersonRepositoryImpl$generic"),
-      None
+      Option(s"$implementationPackage.PersonRepositoryImpl$generic")
     ),
     RepositoryDescription(
       s"$domainModelPackage.Sale",
       BeanIdClass(s"$domainModelPackage.SaleId", Option(2)),
       s"$generatePackage.SaleRepositoryGen",
       false,
-      None,
       None
     )
   )
