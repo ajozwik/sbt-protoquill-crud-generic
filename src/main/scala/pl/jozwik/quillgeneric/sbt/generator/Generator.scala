@@ -19,6 +19,8 @@ trait Generator {
   protected def importDomainTraitRepository: String
   protected def monad: String
   protected def sqlIdiomImport: String
+  protected def toTask: String
+  protected def toTaskEnd: String
   protected def tryEnd: String
   protected def tryStart: String
   protected def update: String

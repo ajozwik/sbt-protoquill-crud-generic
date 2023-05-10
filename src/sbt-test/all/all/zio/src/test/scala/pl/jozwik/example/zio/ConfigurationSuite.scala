@@ -4,11 +4,11 @@ import io.getquill.*
 import pl.jozwik.example.domain.model.{ Configuration, ConfigurationId }
 import pl.jozwik.example.zio.repository.ConfigurationRepositoryGen
 import pl.jozwik.quillgeneric.repository.Repository
-import pl.jozwik.quillgeneric.zio.QIO
+import zio.Task
 trait ConfigurationSuite extends AbstractZioJdbcSpec {
   private implicit val configurationSchema: SchemaMeta[Configuration] = schemaMeta("CONFIGURATION", _.id -> "`KEY`", _.value -> "`VALUE`")
 
-  private lazy val repository: Repository[QIO, ConfigurationId, Configuration, Long] = new ConfigurationRepositoryGen(ctx)
+  private lazy val repository: Repository[Task, ConfigurationId, Configuration, Long] = new ConfigurationRepositoryGen(ctx)
 
   "Configuration " should {
     "Call all operation " in {

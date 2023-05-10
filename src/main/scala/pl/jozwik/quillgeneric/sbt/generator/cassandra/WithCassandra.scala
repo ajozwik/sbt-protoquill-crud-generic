@@ -25,4 +25,6 @@ trait WithCassandra {
        |      }
        |""".stripMargin
 
+
+
 }

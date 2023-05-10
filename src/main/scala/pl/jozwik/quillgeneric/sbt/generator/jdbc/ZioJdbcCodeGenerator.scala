@@ -10,5 +10,6 @@ object ZioJdbcCodeGenerator extends AbstractCodeGenerator with WithJdbc with Wit
 
   protected def customImports: String = """import io.getquill.context.qzio.ZioJdbcContext
                                 |import pl.jozwik.quillgeneric.zio.*
-                                |import zio.interop.catz.*""".stripMargin
+                                |import zio.interop.catz.*
+                                |import zio.Task""".stripMargin
 }

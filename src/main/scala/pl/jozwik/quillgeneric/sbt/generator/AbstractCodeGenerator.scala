@@ -62,6 +62,8 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
   private def toGenericContent(content: String) =
     content
       .replace(CreateOrUpdate, createOrUpdate)
+      .replace(ToTask, toTask)
+      .replace(ToTaskEnd, toTaskEnd)
       .replace(AliasGenericDeclaration, aliasGenericDeclaration)
       .replace(RepositoryDomainTraitImport, importDomainTraitRepository)
 

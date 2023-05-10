@@ -15,7 +15,7 @@ trait WithJdbc {
   protected def contextTransactionEnd = "}"
 
   protected def createOrUpdate: String = s"""  override def createOrUpdate(entity: $BeanTemplate): $Monad[$BeanIdTemplate] =
-                                   |    $ContextTransactionStart
+                                   |    $ContextTransactionStart$ToTask
                                    |      for {
                                    |        el <- ${TryStart}run(find(entity.id).updateValue(lift(entity)))$TryEnd
                                    |        id <- el match
@@ -26,5 +26,5 @@ trait WithJdbc {
                                    |      } yield {
                                    |        id
                                    |      }
-                                   |   $ContextTransactionEnd""".stripMargin
+                                   |   $ToTaskEnd$ContextTransactionEnd""".stripMargin
 }

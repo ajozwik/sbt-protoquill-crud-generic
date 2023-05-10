@@ -1,8 +1,8 @@
 package pl.jozwik.quillgeneric.sbt.generator.jdbc
 
-import pl.jozwik.quillgeneric.sbt.generator.{ AbstractCodeGenerator, WithDoobie, WithJdbc }
+import pl.jozwik.quillgeneric.sbt.generator.{AbstractCodeGenerator, WithDoobie, WithJdbc, WithNoTask}
 
-object DoobieJdbcCodeGenerator extends AbstractCodeGenerator with WithJdbc with WithDoobie {
+object DoobieJdbcCodeGenerator extends AbstractCodeGenerator with WithJdbc with WithDoobie with WithNoTask{
   protected val genericPackage                = "pl.jozwik.quillgeneric.doobie"
   protected val aliasName                     = "DoobieJdbcContextWithDateQuotes"
   protected val domainRepository: String      = "DoobieRepository "

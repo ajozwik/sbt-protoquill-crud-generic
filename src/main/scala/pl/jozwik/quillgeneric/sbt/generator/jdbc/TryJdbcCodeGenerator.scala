@@ -1,8 +1,8 @@
 package pl.jozwik.quillgeneric.sbt.generator.jdbc
 
-import pl.jozwik.quillgeneric.sbt.generator.{ AbstractCodeGenerator, WithJdbc, WithTry }
+import pl.jozwik.quillgeneric.sbt.generator.{AbstractCodeGenerator, WithJdbc, WithNoTask, WithTry}
 
-object TryJdbcCodeGenerator extends AbstractCodeGenerator with WithJdbc with WithTry {
+object TryJdbcCodeGenerator extends AbstractCodeGenerator with WithJdbc with WithTry with WithNoTask{
   protected def genericPackage                = "pl.jozwik.quillgeneric.monad"
   protected def aliasName                     = "TryJdbcContextWithDateQuotes"
   protected def domainRepository: String      = "TryJdbcRepository"

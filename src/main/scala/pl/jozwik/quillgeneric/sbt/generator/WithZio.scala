@@ -1,8 +1,17 @@
 package pl.jozwik.quillgeneric.sbt.generator
 
 trait WithZio {
-  protected def monad: String       = "QIO"
-  protected def monadImport: String = s"import pl.jozwik.quillgeneric.zio.ZioJdbcRepository.$monad"
-  protected def tryStart: String    = ""
-  protected def tryEnd: String      = ""
+  protected val monad: String       = "Task"
+  protected val monadImport: String = s"import pl.jozwik.quillgeneric.zio.ZioJdbcRepository.$monad"
+  protected val tryStart: String    = ""
+  protected val tryEnd: String      = ""
+
+  protected val toTask: String =
+    """
+      |      toTask {""".stripMargin
+
+  protected val toTaskEnd: String =
+    """ }
+      |    """.stripMargin
+
 }

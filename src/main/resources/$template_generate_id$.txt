@@ -37,7 +37,7 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
     }__TRY_END__
 
   override def createOrUpdate(entity: __BEAN__, generateId: Boolean = true): __MONAD__[__ID__] = {
-    inTransaction {
+    inTransaction {__TO_TASK__
       for {
         el <- __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__
         id <- el match
@@ -48,7 +48,7 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
       } yield {
         id
       }
-    }
+    __TO_TASK_END__}
   }
 
   override def read(id: __BEAN__Id): __MONAD__[Option[__BEAN__]] =
