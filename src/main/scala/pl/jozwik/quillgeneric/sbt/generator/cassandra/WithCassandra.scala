@@ -2,7 +2,9 @@ package pl.jozwik.quillgeneric.sbt.generator.cassandra
 
 import pl.jozwik.quillgeneric.sbt.generator.CodeGenerationTemplates.*
 trait WithCassandra {
-  protected def update                     = "Unit"
+  protected def updateResult               = "Unit"
+
+  protected def update: String = ""
   protected def contextTransactionStart    = ""
   protected def contextTransactionEnd      = ""
   protected def sqlIdiomImport             = ""
@@ -24,7 +26,5 @@ trait WithCassandra {
        |        entity.id
        |      }
        |""".stripMargin
-
-
 
 }

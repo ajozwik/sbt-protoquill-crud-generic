@@ -15,6 +15,6 @@ trait PluginKeys {
       generateTryRepositories    := Seq.empty[RepositoryDescription],
       generateDoobieRepositories := Seq.empty[RepositoryDescription],
       generateCassandraRepositories := Seq.empty[RepositoryDescription],
-      protoQuillGenericVersion   := "0.5.5"
+      protoQuillGenericVersion   := "0.5.6"
     )
 }

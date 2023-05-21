@@ -3,7 +3,11 @@ package pl.jozwik.quillgeneric.sbt.generator
 import pl.jozwik.quillgeneric.sbt.generator.CodeGenerationTemplates.*
 
 trait WithJdbc {
-  protected def update         = "Long"
+  protected def updateResult = "Long"
+
+  protected def update: String =
+    """  override def update(entity: __BEAN__): __MONAD__[__UP__] =
+      |    __TRY_START__run(find(entity.id).updateValue(lift(entity)))__TRY_END__""".stripMargin
   protected def sqlIdiomImport = "import io.getquill.context.sql.idiom.SqlIdiom"
 
   protected def aliasGenericDeclaration =

@@ -23,7 +23,9 @@ trait Generator {
   protected def toTaskEnd: String
   protected def tryEnd: String
   protected def tryStart: String
+
   protected def update: String
+  protected def updateResult: String
 
   def generate(rootPath: File)(description: RepositoryDescription): (File, String)
 }
