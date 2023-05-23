@@ -5,7 +5,7 @@ Library of generic CRUD operation for [protoquill](https://github.com/zio/zio-pr
 
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.ajozwik/sbt-protoquill-crud-generic/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.ajozwik/sbt-protoquill-crud-generic)
-
+[![Scala CI](https://github.com/ajozwik/sbt-protoquill-crud-generic/actions/workflows/ci.yml/badge.svg)](https://github.com/ajozwik/sbt-protoquill-crud-generic/actions/workflows/ci.yml)
 
 To activate the plugins add to project/plugins.sbt:
 
