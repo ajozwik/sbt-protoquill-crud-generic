@@ -7,7 +7,7 @@ import sbt.*
 
 import scala.io.{ Codec, Source }
 import scala.util.control.NonFatal
-
+import scala.util.Using
 abstract class AbstractCodeGenerator extends Generator with CodeGenerationTemplates {
   private val Dialect                            = "Dialect"
   private val Naming                             = "Naming"
@@ -112,15 +112,8 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
   private def readTemplate(templateResource: String): String = {
     val input = Option(getClass.getClassLoader.getResourceAsStream(templateResource))
       .getOrElse(getClass.getClassLoader.getResourceAsStream(s"/$templateResource"))
-    try {
-      Source.fromInputStream(input)(Codec.UTF8).mkString
-    } catch {
-      case NonFatal(e) =>
-        print(s"$templateResource")
-        e.printStackTrace()
-        throw e
-    } finally {
-      input.close()
+    Using.resource(input) { i =>
+      Source.fromInputStream(i)(Codec.UTF8).mkString
     }
   }
 

@@ -1,8 +1,8 @@
 package pl.jozwik.quillgeneric.sbt.generator.cassandra
 
-import pl.jozwik.quillgeneric.sbt.generator.{AbstractCodeGenerator, WithNoTask, WithTry}
+import pl.jozwik.quillgeneric.sbt.generator.{ AbstractCodeGenerator, WithNoTask, WithTry }
 
-object CassandraCodeGenerator extends AbstractCodeGenerator with WithCassandra with WithTry with WithNoTask{
+object CassandraCodeGenerator extends AbstractCodeGenerator with WithCassandra with WithTry with WithNoTask {
   protected def genericPackage = "pl.jozwik.quillgeneric.cassandra"
   protected def aliasName      = "CassandraContextDateQuotes"
 
@@ -11,7 +11,7 @@ object CassandraCodeGenerator extends AbstractCodeGenerator with WithCassandra w
       |import pl.jozwik.quillgeneric.cassandra.*
       |""".stripMargin
 
-  override protected def domainRepository: String = "CassandraRepositoryTry"
+  override protected def domainRepository: String = domainRepositoryWithGenerated
 
   override protected def domainRepositoryWithGenerated: String = "CassandraRepositoryTry"
 }
