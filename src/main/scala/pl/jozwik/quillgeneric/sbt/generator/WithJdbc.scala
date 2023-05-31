@@ -31,4 +31,7 @@ trait WithJdbc {
                                    |        id
                                    |      }
                                    |   $ToTaskEnd$ContextTransactionEnd""".stripMargin
+
+  protected def customImports: String = "import io.getquill.context.sql.idiom.SqlIdiom"
+
 }

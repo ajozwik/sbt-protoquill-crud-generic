@@ -3,7 +3,6 @@ package pl.jozwik.example.monad
 import io.getquill.*
 import pl.jozwik.example.domain.model.{Person, PersonId}
 import pl.jozwik.example.monad.repository.PersonRepositoryGen
-import zio.Unsafe
 
 trait PersonRepositorySuite extends AbstractTryJdbcSpec {
   "PersonCustomRepository " should {

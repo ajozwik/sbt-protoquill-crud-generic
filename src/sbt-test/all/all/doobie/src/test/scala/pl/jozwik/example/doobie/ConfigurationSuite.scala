@@ -3,7 +3,6 @@ package pl.jozwik.example.doobie
 import io.getquill.*
 import pl.jozwik.example.domain.model.{ Configuration, ConfigurationId }
 import pl.jozwik.example.doobie.repository.ConfigurationRepositoryGen
-import pl.jozwik.quillgeneric.repository.Repository
 trait ConfigurationSuite extends AbstractDoobieJdbcSpec {
   private implicit val configurationSchema: SchemaMeta[Configuration] = schemaMeta("CONFIGURATION", _.id -> "`KEY`", _.value -> "`VALUE`")
 

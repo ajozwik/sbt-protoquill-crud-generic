@@ -2,17 +2,14 @@ package pl.jozwik.example.doobie
 
 import cats.effect.IO
 import cats.effect.kernel.Resource
-import cats.effect.unsafe.implicits.global
+import doobie.ConnectionIO
 import doobie.h2.*
 import doobie.implicits.*
-import doobie.{ ConnectionIO, HC, Transactor }
-import io.getquill.H2JdbcContext
 import io.getquill.doobie.DoobieContext
-import org.scalatest.{ BeforeAndAfterAll, TryValues }
+import org.scalatest.BeforeAndAfterAll
 import pl.jozwik.example.AbstractSpec
 
 import scala.concurrent.ExecutionContext
-import scala.util.Try
 
 trait AbstractDoobieJdbcSpec extends AbstractSpec with BeforeAndAfterAll {
 

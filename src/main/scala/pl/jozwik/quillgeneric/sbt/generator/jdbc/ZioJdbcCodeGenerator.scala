@@ -8,8 +8,8 @@ object ZioJdbcCodeGenerator extends AbstractCodeGenerator with WithJdbc with Wit
   protected def domainRepository: String      = "ZioJdbcRepository"
   protected def domainRepositoryWithGenerated = "ZioJdbcRepositoryWithGeneratedId"
 
-  protected def customImports: String = """import io.getquill.context.qzio.ZioJdbcContext
-                                |import pl.jozwik.quillgeneric.zio.*
+  protected override def customImports: String = s"""import pl.jozwik.quillgeneric.zio.*
                                 |import zio.interop.catz.*
-                                |import zio.Task""".stripMargin
+                                |import zio.Task
+                                |${super.customImports}""".stripMargin
 }

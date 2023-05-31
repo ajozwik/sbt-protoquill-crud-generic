@@ -1,7 +1,6 @@
 __PACKAGE__
 
 import io.getquill.*
-import io.getquill.context.sql.idiom.SqlIdiom
 __BEAN_CLASS_IMPORT__
 __ID_CLASS_IMPORT__
 __REPOSITORY_TRAIT_IMPORT__

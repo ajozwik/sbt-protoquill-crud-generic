@@ -12,7 +12,7 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-val `scalaVersion_3` = "3.2.2"
+val `scalaVersion_3` = "3.3.0"
 
 name := "protoquill-example"
 
@@ -26,7 +26,11 @@ ThisBuild / scalacOptions ++= Seq(
   "-deprecation",
   "-feature",
   "-unchecked",
-  "-language:reflectiveCalls"
+  "-language:reflectiveCalls",
+  "-Wunused:imports",
+  "-Wunused:linted",
+  "-Wunused:locals",
+  "-Wunused:params"
 )
 
 val scalaTestVersion = "3.2.15"
