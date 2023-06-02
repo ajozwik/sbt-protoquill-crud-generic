@@ -70,6 +70,16 @@ abstract class AbstractCodeGeneratorSpec(generator: Generator, generatedId: Bool
       content should include(description.beanIdSimpleClassName)
       content should include(description.repositorySimpleClassName)
     }
+
+    "Without package" in {
+      val description =
+        RepositoryDescription(s"${modelPackage}.Sale", BeanIdClass(s"${modelPackage}.SaleId", Option(2)), "SaleRepository")
+      val (file: File, content: String) = generateAndLog(description)
+      file.exists() shouldBe false
+      content should include(description.beanSimpleClassName)
+      content should include(description.beanIdSimpleClassName)
+      content should include(description.repositorySimpleClassName)
+    }
   }
 
   private def generateAndLog(description: RepositoryDescription) = {
