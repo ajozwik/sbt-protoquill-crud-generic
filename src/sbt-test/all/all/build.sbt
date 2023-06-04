@@ -33,7 +33,7 @@ ThisBuild / scalacOptions ++= Seq(
   "-Wunused:params"
 )
 
-val scalaTestVersion = "3.2.16
+val scalaTestVersion = "3.2.16"
 
 val `ch.qos.logback_logback-classic`                 = "ch.qos.logback"              % "logback-classic"         % "1.2.11"
 val `com.datastax.cassandra_cassandra-driver-extras` = "com.datastax.cassandra"      % "cassandra-driver-extras" % "3.11.3"
