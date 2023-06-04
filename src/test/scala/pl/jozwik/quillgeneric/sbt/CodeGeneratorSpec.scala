@@ -15,7 +15,7 @@ class CassandraGeneratorCodeSpec extends AbstractCodeGeneratorSpec(CassandraCode
 abstract class AbstractCodeGeneratorSpec(generator: Generator, generatedId: Boolean = true) extends AbstractSpec {
 
   private val generic: String = "[Dialect, Naming]"
-  private def baseTempPath    = new File("target")
+
   private val modelPackage    = "pl.jozwik.quillgeneric.model"
   private val implPackage     = "pl.jozwik.quillgeneric.zio.repository"
   private val genPackage      = s"$implPackage.gen"

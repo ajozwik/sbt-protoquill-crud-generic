@@ -3,7 +3,7 @@ package pl.jozwik.quillgeneric.sbt
 import sbt.Keys.*
 import sbt.*
 import sbt.plugins.JvmPlugin
-import DependencyHelper.*
+import PluginHelper.*
 import pl.jozwik.quillgeneric.sbt.generator.jdbc.*
 import pl.jozwik.quillgeneric.sbt.generator.Generator
 import pl.jozwik.quillgeneric.sbt.generator.cassandra.CassandraCodeGenerator

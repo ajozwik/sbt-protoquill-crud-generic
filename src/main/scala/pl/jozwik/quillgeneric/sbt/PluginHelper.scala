@@ -2,7 +2,7 @@ package pl.jozwik.quillgeneric.sbt
 
 import sbt.*
 
-object DependencyHelper {
+object PluginHelper {
 
   def addImport(add: Boolean, module: String, version: String): Option[ModuleID] =
     if (add) {
@@ -10,4 +10,11 @@ object DependencyHelper {
     } else {
       Option.empty[ModuleID]
     }
+
+  def mkdirs(dir: File): Unit = {
+    dir.mkdirs()
+    if (!dir.isDirectory) {
+      sys.error(s"${dir.getAbsolutePath} is not a directory")
+    }
+  }
 }

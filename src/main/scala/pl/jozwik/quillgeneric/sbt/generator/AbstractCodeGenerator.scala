@@ -8,6 +8,7 @@ import sbt.*
 import scala.io.{ Codec, Source }
 import scala.util.Using
 abstract class AbstractCodeGenerator extends Generator with CodeGenerationTemplates {
+  import pl.jozwik.quillgeneric.sbt.PluginHelper.*
   private val Dialect                            = "Dialect"
   private val Naming                             = "Naming"
   protected def template                         = "$template$.txt"
@@ -115,11 +116,6 @@ abstract class AbstractCodeGenerator extends Generator with CodeGenerationTempla
       Source.fromInputStream(i)(Codec.UTF8).mkString
     }
   }
-
-  private def mkdirs(dir: File): Unit =
-    if (!dir.mkdirs() && !dir.isDirectory) {
-      sys.error(s"${dir.getAbsolutePath} can not be created")
-    }
 
   private def toFindByKey(keyLength: Option[Byte]) = {
     keyLength match {
