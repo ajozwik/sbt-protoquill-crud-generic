@@ -29,13 +29,13 @@ ThisBuild / javacOptions ++= Seq("-Xlint:deprecation", "-Xdiags:verbose", "-sour
 
 ThisBuild / scalaVersion := "2.12.17"
 
-val protoQuillVersion = "0.5.7"
+val protoQuillVersion = "0.5.8"
 
 val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5"
 
 val `ch.qos.logback_logback-classic` = "ch.qos.logback" % "logback-classic" % "1.3.7"
 
-val `org.scalatest_scalatest` = "org.scalatest" %% "scalatest" % "3.2.16" % Test
+val `org.scalatest_scalatest` = "org.scalatest" %% "scalatest" % "3.2.17" % Test
 
 val `org.scalacheck_scalacheck` = "org.scalacheck" %% "scalacheck" % "1.17.0" % Test
 
