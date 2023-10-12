@@ -12,7 +12,7 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-val `scalaVersion_3` = "3.3.0"
+val `scalaVersion_3` = "3.3.1"
 
 name := "protoquill-example"
 
@@ -33,17 +33,17 @@ ThisBuild / scalacOptions ++= Seq(
   "-Wunused:params"
 )
 
-val scalaTestVersion = "3.2.16"
+val scalaTestVersion = "3.2.17"
 
 val `ch.qos.logback_logback-classic`                 = "ch.qos.logback"              % "logback-classic"         % "1.2.11"
 val `com.datastax.cassandra_cassandra-driver-extras` = "com.datastax.cassandra"      % "cassandra-driver-extras" % "3.11.3"
-val `com.h2database_h2`                              = "com.h2database"              % "h2"                      % "2.1.214"
+val `com.h2database_h2`                              = "com.h2database"              % "h2"                      % "2.2.224"
 val `com.typesafe.scala-logging_scala-logging`       = "com.typesafe.scala-logging" %% "scala-logging"           % "3.9.5"
 val `org.cassandraunit_cassandra-unit`               = "org.cassandraunit"           % "cassandra-unit"          % "4.3.1.0"
 val `org.scalacheck_scalacheck`                      = "org.scalacheck"             %% "scalacheck"              % "1.17.0"         % Test
 val `org.scalatest_scalatest`                        = "org.scalatest"              %% "scalatest"               % scalaTestVersion % Test
 val `org.scalatestplus_scalacheck`                   = "org.scalatestplus"          %% "scalacheck-1-17"         % s"$scalaTestVersion.0"
-val `org.tpolecat_doobie-h2`                         = "org.tpolecat"               %% "doobie-h2"               % "1.0.0-RC2"
+val `org.tpolecat_doobie-h2`                         = "org.tpolecat"               %% "doobie-h2"               % "1.0.0-RC4"
 
 val basePackage        = "pl.jozwik.example"
 val domainModelPackage = s"$basePackage.domain.model"
