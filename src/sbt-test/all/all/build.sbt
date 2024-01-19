@@ -10,8 +10,6 @@ lazy val readQuillMacroVersionSbt = sys.props.get("plugin.version") match {
 
 resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
-resolvers ++= Resolver.sonatypeOssRepos("snapshots")
-
 val `scalaVersion_3` = "3.3.1"
 
 name := "protoquill-example"
@@ -35,7 +33,7 @@ ThisBuild / scalacOptions ++= Seq(
 
 val scalaTestVersion = "3.2.17"
 
-val `ch.qos.logback_logback-classic`                 = "ch.qos.logback"              % "logback-classic"         % "1.2.11"
+val `ch.qos.logback_logback-classic`                 = "ch.qos.logback"              % "logback-classic"         % "1.3.8"
 val `com.datastax.cassandra_cassandra-driver-extras` = "com.datastax.cassandra"      % "cassandra-driver-extras" % "3.11.3"
 val `com.h2database_h2`                              = "com.h2database"              % "h2"                      % "2.2.224"
 val `com.typesafe.scala-logging_scala-logging`       = "com.typesafe.scala-logging" %% "scala-logging"           % "3.9.5"
