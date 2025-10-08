@@ -24,7 +24,7 @@ trait AbstractDoobieJdbcSpec extends AbstractSpec with BeforeAndAfterAll {
 
   private lazy val transactor: Resource[IO, H2Transactor[IO]] =
     H2Transactor.newH2Transactor[IO](
-      "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:scripts/create.sql'",
+      "jdbc:h2:mem:test;MODE=MySQL;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:scripts/create.sql'",
       "sa",
       "",
       ExecutionContext.global

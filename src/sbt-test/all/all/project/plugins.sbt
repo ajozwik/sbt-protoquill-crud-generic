@@ -6,8 +6,6 @@ val quillGenericVersion = sys.props.get("plugin.version") match {
                  |Specify this property using the scriptedLaunchOpts -Dplugin.version=...""".stripMargin)
 }
 
-resolvers ++= Resolver.sonatypeOssRepos("snapshots")
-
-resolvers ++= Resolver.sonatypeOssRepos("snapshots")
+resolvers += Resolver.sonatypeCentralSnapshots
 
 addSbtPlugin("com.github.ajozwik" % "sbt-protoquill-crud-generic" % quillGenericVersion)
