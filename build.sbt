@@ -25,17 +25,14 @@ ThisBuild / scalacOptions ++= Seq(
 
 ThisBuild / javacOptions ++= Seq("-Xlint:deprecation", "-Xdiags:verbose", "-source", targetJdk, "-target", targetJdk)
 
-ThisBuild / scalaVersion := "2.12.20"
+ThisBuild / scalaVersion := "2.12.18"
 
 val protoQuillVersion = "0.5.8"
 
-val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging" % "3.9.6"
-
-val `ch.qos.logback_logback-classic` = "ch.qos.logback" % "logback-classic" % "1.3.15"
-
-val `org.scalatest_scalatest` = "org.scalatest" %% "scalatest" % "3.2.19" % Test
-
-val `org.scalacheck_scalacheck` = "org.scalacheck" %% "scalacheck" % "1.19.0" % Test
+val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging"   % "3.9.6"
+val `ch.qos.logback_logback-classic`           = "ch.qos.logback"              % "logback-classic" % "1.3.15"
+val `org.scalatest_scalatest`                  = "org.scalatest"              %% "scalatest"       % "3.2.19" % Test
+val `org.scalacheck_scalacheck`                = "org.scalacheck"             %% "scalacheck"      % "1.19.0" % Test
 
 ThisBuild / libraryDependencies ++= Seq(
   `ch.qos.logback_logback-classic`           % Test,
