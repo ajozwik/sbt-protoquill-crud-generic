@@ -8,9 +8,9 @@ lazy val readQuillMacroVersionSbt = sys.props.get("plugin.version") match {
                  |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
 }
 
-resolvers ++= Resolver.sonatypeOssRepos("snapshots")
+resolvers += Resolver.sonatypeCentralSnapshots
 
-val `scalaVersion_3` = "3.3.1"
+val `scalaVersion_3` = "3.3.6"
 
 name := "protoquill-example"
 
@@ -31,17 +31,17 @@ ThisBuild / scalacOptions ++= Seq(
   "-Wunused:params"
 )
 
-val scalaTestVersion = "3.2.17"
+val scalaTestVersion = "3.2.19"
 
-val `ch.qos.logback_logback-classic`                 = "ch.qos.logback"              % "logback-classic"         % "1.3.8"
+val `ch.qos.logback_logback-classic`                 = "ch.qos.logback"              % "logback-classic"         % "1.3.15"
 val `com.datastax.cassandra_cassandra-driver-extras` = "com.datastax.cassandra"      % "cassandra-driver-extras" % "3.11.3"
 val `com.h2database_h2`                              = "com.h2database"              % "h2"                      % "2.2.224"
-val `com.typesafe.scala-logging_scala-logging`       = "com.typesafe.scala-logging" %% "scala-logging"           % "3.9.5"
+val `com.typesafe.scala-logging_scala-logging`       = "com.typesafe.scala-logging" %% "scala-logging"           % "3.9.6"
 val `org.cassandraunit_cassandra-unit`               = "org.cassandraunit"           % "cassandra-unit"          % "4.3.1.0"
-val `org.scalacheck_scalacheck`                      = "org.scalacheck"             %% "scalacheck"              % "1.17.0"         % Test
+val `org.scalacheck_scalacheck`                      = "org.scalacheck"             %% "scalacheck"              % "1.18.0"         % Test
 val `org.scalatest_scalatest`                        = "org.scalatest"              %% "scalatest"               % scalaTestVersion % Test
-val `org.scalatestplus_scalacheck`                   = "org.scalatestplus"          %% "scalacheck-1-17"         % s"$scalaTestVersion.0"
-val `org.tpolecat_doobie-h2`                         = "org.tpolecat"               %% "doobie-h2"               % "1.0.0-RC4"
+val `org.scalatestplus_scalacheck`                   = "org.scalatestplus"          %% "scalacheck-1-18"         % s"$scalaTestVersion.0"
+val `org.tpolecat_doobie-h2`                         = "org.tpolecat"               %% "doobie-h2"               % "1.0.0-RC8"
 
 val basePackage        = "pl.jozwik.example"
 val domainModelPackage = s"$basePackage.domain.model"
