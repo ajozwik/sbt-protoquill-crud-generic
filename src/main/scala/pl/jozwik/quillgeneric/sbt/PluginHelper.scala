@@ -12,7 +12,7 @@ object PluginHelper {
     }
 
   def mkdirs(dir: File): Unit =
-    if (!dir.isDirectory && !dir.mkdirs()) {
+    if (!dir.mkdirs() && !dir.isDirectory) {
       sys.error(s"${dir.getAbsolutePath} is not a directory")
     }
 
