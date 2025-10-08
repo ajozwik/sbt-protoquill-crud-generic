@@ -11,10 +11,9 @@ object PluginHelper {
       Option.empty[ModuleID]
     }
 
-  def mkdirs(dir: File): Unit = {
-    dir.mkdirs()
-    if (!dir.isDirectory) {
+  def mkdirs(dir: File): Unit =
+    if (!dir.isDirectory && !dir.mkdirs()) {
       sys.error(s"${dir.getAbsolutePath} is not a directory")
     }
-  }
+
 }

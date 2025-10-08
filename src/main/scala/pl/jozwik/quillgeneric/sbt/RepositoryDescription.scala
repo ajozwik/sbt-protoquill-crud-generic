@@ -19,7 +19,7 @@ final case class RepositoryDescription(
 
   private[sbt] def toPackageNameSimpleClass(className: String): (Seq[String], String) = {
     val array                     = className.split("\\.")
-    val packageName               = array.slice(0, array.length - 1)
+    val packageName               = array.slice(0, array.length - 1).toSeq
     val repositorySimpleClassName = array(array.length - 1)
     (packageName, repositorySimpleClassName)
   }
