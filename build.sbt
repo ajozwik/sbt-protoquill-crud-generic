@@ -25,13 +25,15 @@ ThisBuild / scalacOptions ++= Seq(
 
 ThisBuild / javacOptions ++= Seq("-Xlint:deprecation", "-Xdiags:verbose", "-source", targetJdk, "-target", targetJdk)
 
-ThisBuild / scalaVersion := "2.12.18"
+lazy val scala212 = "2.12.20"
+lazy val scala3   = "3.8.4"
+ThisBuild / crossScalaVersions := Seq(scala212, scala3)
 
-val protoQuillVersion = "0.5.8"
+val protoQuillVersion = "0.7.0"
 
 val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging"   % "3.9.6"
-val `ch.qos.logback_logback-classic`           = "ch.qos.logback"              % "logback-classic" % "1.3.15"
-val `org.scalatest_scalatest`                  = "org.scalatest"              %% "scalatest"       % "3.2.19" % Test
+val `ch.qos.logback_logback-classic`           = "ch.qos.logback"              % "logback-classic" % "1.3.16"
+val `org.scalatest_scalatest`                  = "org.scalatest"              %% "scalatest"       % "3.2.20" % Test
 val `org.scalacheck_scalacheck`                = "org.scalacheck"             %% "scalacheck"      % "1.19.0" % Test
 
 ThisBuild / libraryDependencies ++= Seq(
@@ -44,6 +46,12 @@ ThisBuild / libraryDependencies ++= Seq(
 ThisScope / sbtPlugin := true
 
 lazy val root = (project in file("."))
+  .settings((pluginCrossBuild / sbtVersion) := {
+    scalaBinaryVersion.value match {
+      case "2.12" => "1.12.12"
+      case _      => "2.0.0"
+    }
+  })
   .settings(
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
     scriptedBufferLog := false,
