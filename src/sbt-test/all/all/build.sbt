@@ -33,15 +33,15 @@ ThisBuild / scalacOptions ++= Seq(
 
 val scalaTestVersion = "3.2.20"
 
-val `ch.qos.logback_logback-classic`                 = "ch.qos.logback"              % "logback-classic"         % "1.5.34"
-val `com.datastax.cassandra_cassandra-driver-extras` = "com.datastax.cassandra"      % "cassandra-driver-extras" % "3.11.5"
-val `com.h2database_h2`                              = "com.h2database"              % "h2"                      % "2.4.240"
-val `com.typesafe.scala-logging_scala-logging`       = "com.typesafe.scala-logging" %% "scala-logging"           % "3.9.6"
-val `org.cassandraunit_cassandra-unit`               = "org.cassandraunit"           % "cassandra-unit"          % "4.3.1.0"
-val `org.scalacheck_scalacheck`                      = "org.scalacheck"             %% "scalacheck"              % "1.19.0"               % Test
-val `org.scalatest_scalatest`                        = "org.scalatest"              %% "scalatest"               % scalaTestVersion       % Test
-val `org.scalatestplus_scalacheck`                   = "org.scalatestplus"          %% "scalacheck-1-19"         % s"$scalaTestVersion.0" % Test
-val `org.tpolecat_doobie-h2`                         = "org.tpolecat"               %% "doobie-h2"               % "1.0.0-RC5"
+val `ch.qos.logback_logback-classic`           = "ch.qos.logback"              % "logback-classic"  % "1.5.34"
+val `org.apache.cassandra_java-driver-core`    = "org.apache.cassandra"        % "java-driver-core" % "4.19.3"
+val `com.h2database_h2`                        = "com.h2database"              % "h2"               % "2.4.240"
+val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging"    % "3.9.6"
+val `org.cassandraunit_cassandra-unit`         = "org.cassandraunit"           % "cassandra-unit"   % "4.3.1.0"
+val `org.scalacheck_scalacheck`                = "org.scalacheck"             %% "scalacheck"       % "1.19.0"               % Test
+val `org.scalatest_scalatest`                  = "org.scalatest"              %% "scalatest"        % scalaTestVersion       % Test
+val `org.scalatestplus_scalacheck`             = "org.scalatestplus"          %% "scalacheck-1-19"  % s"$scalaTestVersion.0" % Test
+val `org.tpolecat_doobie-h2`                   = "org.tpolecat"               %% "doobie-h2"        % "1.0.0-RC5"
 
 val basePackage        = "pl.jozwik.example"
 val domainModelPackage = s"$basePackage.domain.model"
@@ -94,7 +94,7 @@ lazy val cassandra = projectWithSbtPlugin("cassandra", file("cassandra"))
           s"$generateCassandraRepositoryPackage.AddressRepositoryGen"
         )
       ),
-    libraryDependencies ++= Seq(`org.cassandraunit_cassandra-unit` % Test, `com.datastax.cassandra_cassandra-driver-extras` % Test)
+    libraryDependencies ++= Seq(`org.cassandraunit_cassandra-unit` % Test, `org.apache.cassandra_java-driver-core` % Test)
   )
 
 def repositoriesWithoutLocalDateTime(
