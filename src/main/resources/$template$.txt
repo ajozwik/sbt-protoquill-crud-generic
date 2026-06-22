@@ -39,6 +39,16 @@ final class __REPOSITORY_NAME__[__ALIAS_GENERIC_DECLARATION__](
 __CREATE_OR_UPDATE__
 
 
+  override def filtersByKeys(values: Map[String, Any]): __MONAD__[Seq[__BEAN__]] = {
+    inline def q = quoteQuery.filterByKeys(values)
+    for {
+      all <- __TRY_START__run(q)__TRY_END__
+    } yield {
+      all
+    }
+  }
+
+
   override def read(id: __ID__): __MONAD__[Option[__BEAN__]] =
     for {
       seq <- __TRY_START__run(find(id))__TRY_END__

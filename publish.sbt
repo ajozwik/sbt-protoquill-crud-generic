@@ -1,7 +1,9 @@
 import sbtrelease.ReleaseStateTransformations._
 
+val organizationUrl = "https://github.com/ajozwik"
+
 ThisScope / sbtrelease.ReleasePlugin.autoImport.releasePublishArtifactsAction := PgpKeys.publishSigned.value
-ThisScope / sbtrelease.ReleasePlugin.autoImport.releaseCrossBuild := true
+ThisScope / sbtrelease.ReleasePlugin.autoImport.releaseCrossBuild             := true
 
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
@@ -27,19 +29,14 @@ ThisBuild / developers := List(
 )
 
 ThisBuild / publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  if (isSnapshot.value) {
-    Option("snapshots" at nexus + "content/repositories/snapshots")
-  } else {
-    Option("releases" at nexus + "service/local/staging/deploy/maven2")
-  }
+  val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
+  if (isSnapshot.value) Option("central-snapshots" at centralSnapshots)
+  else localStaging.value
 }
 
 Test / publishArtifact := false
 
 ThisBuild / licenses := Seq("MIT License" -> url("http://www.opensource.org/licenses/mit-license.php"))
-
-val organizationUrl = "https://github.com/ajozwik"
 
 val projectUrl = s"$organizationUrl/quill-generic"
 

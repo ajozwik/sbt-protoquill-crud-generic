@@ -32,7 +32,7 @@ ThisBuild / crossScalaVersions := Seq(scala212, scala3)
 val protoQuillVersion = "0.7.0"
 
 val `com.typesafe.scala-logging_scala-logging` = "com.typesafe.scala-logging" %% "scala-logging"   % "3.9.6"
-val `ch.qos.logback_logback-classic`           = "ch.qos.logback"              % "logback-classic" % "1.3.16"
+val `ch.qos.logback_logback-classic`           = "ch.qos.logback"              % "logback-classic" % "1.5.34"
 val `org.scalatest_scalatest`                  = "org.scalatest"              %% "scalatest"       % "3.2.20" % Test
 val `org.scalacheck_scalacheck`                = "org.scalacheck"             %% "scalacheck"      % "1.19.0" % Test
 
@@ -48,7 +48,7 @@ ThisScope / sbtPlugin := true
 lazy val root = (project in file("."))
   .settings((pluginCrossBuild / sbtVersion) := {
     scalaBinaryVersion.value match {
-      case "2.12" => "1.12.12"
+      case "2.12" => "1.12.13"
       case _      => "2.0.0"
     }
   })
