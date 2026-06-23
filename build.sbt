@@ -12,16 +12,15 @@ ThisBuild / scalacOptions ++= Seq(
   "-deprecation",
   "-feature",
   "-unchecked",
+  "-language:existentials",
   "-Xlint",
-  "-Ywarn-adapted-args",
-  "-Ywarn-value-discard",
-  "-Ywarn-inaccessible",
-  "-Ywarn-dead-code",
-  "-language:reflectiveCalls",
-  "-Ydelambdafy:method",
-  s"-target:jvm-$targetJdk",
-  "-Xsource:3"
-)
+  "-language:reflectiveCalls"
+) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
+  case Some((2, _)) =>
+    Seq("-Xsource:3", "-Ywarn-adapted-args", "-Ywarn-value-discard", "-Ywarn-inaccessible", "-Ywarn-dead-code", "-Ydelambdafy:method", s"-release:$targetJdk")
+  case _ =>
+    Seq("-language:implicitConversions", "-release:17")
+})
 
 ThisBuild / javacOptions ++= Seq("-Xlint:deprecation", "-Xdiags:verbose", "-source", targetJdk, "-target", targetJdk)
 
@@ -55,6 +54,6 @@ lazy val root = (project in file("."))
   .settings(
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
     scriptedBufferLog := false,
-    Compile / compile / wartremoverWarnings ++= Warts.allBut(Wart.ImplicitParameter, Wart.DefaultArguments, Wart.Enumeration)
+    Compile / compile / wartremoverWarnings ++= Warts.allBut(Wart.ImplicitParameter, Wart.DefaultArguments, Wart.Enumeration, Wart.Any)
   )
   .enablePlugins(SbtPlugin)
