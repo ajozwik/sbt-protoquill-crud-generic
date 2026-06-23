@@ -4,9 +4,9 @@ Library of generic CRUD operation for [protoquill](https://github.com/zio/zio-pr
 
 
 
-[![Sbt 1](https://img.shields.io/maven-central/v/com.github.ajozwik/sbt-protoquill-crud-generic_2.12_1.0.svg?label=latest%20release)](https://img.shields.io/maven-central/v/com.github.ajozwik/sbt-quill-crud-generic_2.12_1.0)
+[![Sbt 1](https://img.shields.io/maven-central/v/com.github.ajozwik/sbt-protoquill-crud-generic_2.12_1.0.svg?label=latest%20release)](https://img.shields.io/maven-central/v/com.github.ajozwik/sbt-protoquill-crud-generic_2.12_1.0)
 [![Scala CI](https://github.com/ajozwik/sbt-protoquill-crud-generic/actions/workflows/ci.yml/badge.svg)](https://github.com/ajozwik/sbt-protoquill-crud-generic/actions/workflows/ci.yml)
-[![Sbt 2](https://img.shields.io/maven-central/v/com.github.ajozwik/sbt-protoquill-crud-generic_sbt2_3.svg?label=latest%20release)](https://img.shields.io/maven-central/v/com.github.ajozwik/sbt-quill-crud-generic_2.12_1.0)
+[![Sbt 2](https://img.shields.io/maven-central/v/com.github.ajozwik/sbt-protoquill-crud-generic_sbt2_3.svg?label=latest%20release)](https://img.shields.io/maven-central/v/com.github.ajozwik/ssbt-protoquill-crud-generic_sbt2_3)
 [![Coverage Status](https://coveralls.io/repos/github/ajozwik/sbt-protoquill-crud-generic/badge.svg?branch=master)](https://coveralls.io/github/ajozwik/sbt-protoquill-crud-generic?branch=master)
 [![codecov](https://codecov.io/gh/ajozwik/sbt-protoquill-crud-generic/branch/master/graph/badge.svg?token=ZGHJ344TLO)](https://codecov.io/gh/ajozwik/sbt-protoquill-crud-generic)
 
